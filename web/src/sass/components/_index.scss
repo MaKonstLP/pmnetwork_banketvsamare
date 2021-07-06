@@ -1,0 +1,84 @@
+.main_top{
+    width: 100%;
+    margin: auto auto;
+    display: flex;
+    align-items: center;
+
+    @include for-notdesc{
+        flex-direction: column;
+        padding: 0px 15px;
+    }
+
+    @include for-pad{
+        width: 564px;
+        margin: 0 auto 35px;
+    }
+
+    @include for-mobile{
+        margin: 32px auto 20px;
+    }
+
+    h1{
+    	width: 564px;
+    	text-align: center;
+        font-weight: 600;
+        font-size: 48px;
+        line-height: 60px;
+        color: black;
+
+        @include for-notdesc{
+            text-align: center;
+            margin-right: 0px;
+            width: 100%;
+        }
+
+        @include for-mobile{
+            font-size: 36px;
+            line-height: 40px;
+        }
+    }
+
+    .main_top_desc{
+    	width: 705px;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 30px;
+        margin-top: 20px;
+
+        @include for-notdesc{
+            text-align: center;
+            width: 100%;
+        }
+
+        @include for-mobile{
+            margin-top: 10px;
+        }
+
+	    p{
+		    font-weight: 600;
+            font-size: 20px;
+            line-height: 30px;
+
+            @include for-mobile{
+                font-size: 20px;
+                line-height: 29px;
+            }
+		}
+	}
+}
+
+[data-page-type="index"]{
+
+    .to_full_catalog_wrapper{
+        display: flex;
+        justify-content: center;
+    }
+
+    .to_full_catalog_button{
+        padding: 15px 20px 15px 20px;
+        // margin: 0 auto 0 auto;
+        // position: relative;
+        // left: calc(50% - 135px);
+        // transform: translateX(-50%);
+    }
+}

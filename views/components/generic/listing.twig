@@ -1,0 +1,80 @@
+{% for item in items %}
+	<a href="/ploshhadki/{{item.restaurant_unique_id}}/" class="item swiper-slide {{type}}">
+        <div class="item_img">
+            <img src="{{item.restaurant_images[0].subpath}}=w440-h302-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+
+            {#<div class="item_date-availability">
+                <span>Свободно 12 декабря</span>
+            </div>#}
+
+        </div>
+        <div class="item_info">
+            <div class="item_info_top">
+                <p class="item_name">{{item.restaurant_name}}</p>
+
+                {% if type != 'other' %}
+                    <p class="item_address">{{item.restaurant_address}}</p>
+                {% endif %}
+
+                <hr class="item_horizontal_raw">
+                    
+                <div class="item_meta">
+
+                    {% if item.restaurant_min_capacity != item.restaurant_max_capacity %}
+                        <div class="item_meta_item">
+                            <span class="item_meta_label">Вместимость: </span><span class="item_meta_text">{{item.restaurant_min_capacity}} - {{item.restaurant_max_capacity}} чел.</span>
+                        </div>
+                    {% else %}
+                        <div class="item_meta_item">
+                            <span class="item_meta_label">Вместимость: </span><span class="item_meta_text">{{item.restaurant_min_capacity}} чел.</span>
+                        </div>
+                    {% endif %}
+
+                    {% if item.restaurant_price %}
+
+                        {% if item.restaurant_price >= filterMinPrice %}
+
+                            <div class="item_meta_item">
+                                <span class="item_meta_label">Стоимость: </span><span class="item_meta_text">от {{item.restaurant_price}} ₽/чел.</span>
+                            </div>
+
+                        {% else %}
+                            
+                            {% set minPrice = 999999 %}
+
+                            {% for room in item.rooms %}
+
+                                {% if room.price < minPrice and room.price >= filterMinPrice %}
+
+                                    {% set minPrice = room.price %}
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                            <div class="item_meta_item">
+                                <span class="item_meta_label">Стоимость: </span><span class="item_meta_text">от {{minPrice}} ₽/чел.</span>
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <div class="item_additional-info">
+
+            <div class="item_gift-for-early-reservation">
+                <span>Подарок за бронирование</span>
+            </div>
+
+            {% if item.restaurant_firework %}
+            <div class="item_fireworks-availability">
+                <span>Возможность фейерверка</span>
+            </div>
+            {% endif %}
+
+        </div>
+    </a>
+{% endfor %}

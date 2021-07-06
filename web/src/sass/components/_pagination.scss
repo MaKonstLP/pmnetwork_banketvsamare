@@ -1,0 +1,110 @@
+.items_pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include for-mobile{
+        margin-bottom: 30px;
+    }
+
+    .items_pagination_item{
+        width: 43px;
+        height: 54px;
+        position: relative;
+        background-image: url("/img/pagination_ny_img.svg");
+        background-size: contain;
+        margin: 0px 13px;
+        cursor: pointer;
+
+        @include for-pad{
+            width: 36px;
+            height: 45px;
+        }
+
+        @include for-mobile{
+            width: 36px;
+            height: 45px;
+            margin: 0 10px;
+        }
+
+        &._first{
+            margin-right: 26px;
+            &:before{
+                content: '...';
+                position: absolute;
+                left: calc(100% + 14px);
+                bottom: 13px;
+                color: #666666;
+                font-weight: 500;
+                font-size: 16px;
+
+                @include for-mobile{
+                    left: calc(100% + 12px);
+                    bottom: 13px;
+                }
+            }
+        }
+
+        &._last{
+            margin-left: 26px;
+            &:before{
+                content: '...';
+                position: absolute;
+                right: calc(100% + 14px);
+                bottom: 13px;
+                color: #666666;
+                font-weight: 500;
+                font-size: 16px;
+
+                @include for-mobile{
+                    right: calc(100% + 13px);
+                    bottom: 13px;
+                }
+            }
+        }
+
+        &._active{
+            pointer-events: none;
+        }
+
+        &:hover,
+        &._active{
+            background-image: url("/img/pagination_ny_active_img.svg");
+        }
+
+        &:after{
+            content: attr(data-page-id);
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            line-height: 26px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            color: $clrBlack;
+
+            @include for-pad{
+                top: 15px;
+                line-height: 25px;
+                font-size: 14px;
+            }
+
+            @include for-mobile{
+                top: 15px;
+                line-height: 25px;
+                font-size: 14px;
+            }
+        }
+
+        &:hover,
+        &._active{
+            &:after{
+                color: #D83603;
+            }
+        }
+    }
+}
+
+[data-pagination-wrapper]{
+    padding: 30px 0 0 0;
+}

@@ -1,0 +1,9 @@
+{{ this.render('//components/generic/breadcrumbs.twig', {'breadcrumbs':seo.breadcrumbs}) | raw }}
+
+<div class="title">
+
+	<h1>{{seo.h1}}</h1>
+	{# <div class="title_count">{{count}} ресторан{{Declension.end_restaurants(count)}}</div> #}
+	<div class="title_count">{{count}} {{currentType}}</div>
+
+</div>

@@ -1,0 +1,68 @@
+<div data-page-type="index">
+
+	<div class="main_top">
+        <h1>{{seo.h1}}</h1>
+        <div class="main_top_desc">
+            {{seo.h1_pag | raw}}
+        </div>                    
+    </div>
+
+	<div class="content_block submenu">
+		<div class="submenu_wrapper">
+			<a href="/ploshhadki/v-gorode/" class="submenu submenu_restaurants">
+				<h2>В городе</h2>
+				<img src="/img/restaurant_image.png" alt="restaurant_image">
+			</a>
+			<a href="/ploshhadki/na-prirode/" class="submenu submenu_cottages">
+				<h2>На природе</h2>
+				<img src="/img/cottage_image.png" alt="cottage_image">
+			</a>
+		</div>
+	</div>
+
+	<div class="content_block filter_wrapper">
+		<div class="title">
+			<h2>Найдите своё место</h2>
+		</div>
+
+		{{ this.render('//components/generic/slice.twig') | raw }}
+		{{ filter | raw }}
+	</div>
+
+
+	<div class="content_block map" data-map-api-subid="{{ subid }}"></div>
+
+	<div class="content_block form_callback_wrapper">
+	<div class="form_bg"></div>
+		{{ this.render('//components/generic/form_callback.twig') | raw }}
+	</div>
+
+	<div class="content_block seo_text" data-seo-text>
+		{{seo.text_top | raw}}
+		<div class="seo_text_control" data-seo-control>
+			<p class="_link">Показать полностью</p>
+		</div>
+	</div>
+
+	<div class="best_offer_slider" data-widget-main-wrapper>
+
+		{{ mainWidget | raw }}
+
+
+	</div>
+
+	<div class="content_block to_full_catalog_wrapper">
+
+		<a href="/ploshhadki/" class="_button to_full_catalog_button" target="_blank">Все места для корпоратива</a>
+
+	</div>
+
+	<div class="content_block seo_text_wrapper last">
+		<div class="seo_text" data-seo-text>
+			{{seo.text_bottom | raw}}
+			<div class="seo_text_control" data-seo-control>
+				<p class="_link">Показать полностью</p>
+			</div>
+		</div>
+	</div>
+</div>

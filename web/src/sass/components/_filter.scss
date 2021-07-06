@@ -1,0 +1,356 @@
+.filter{
+    display: flex;
+    justify-content: space-between;
+    width: 879px;
+    padding: 23px 50px 23px;
+    background: linear-gradient(139.76deg,
+                                   #FEDA5A 0.69%,
+                                   #FFBA35 112.92%);
+    align-items: flex-start;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 0 5px 20px rgba(253, 172, 77, 0.3);
+
+    @include for-notdesc{
+        flex-wrap: wrap;
+    }
+
+    @include for-pad{
+        padding: 10px 17px 25px;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 700px;
+    }
+
+    @include for-mobile{
+        padding: 16px 20px 23px;
+        width: 100%;
+    }
+
+    .filter_select-checkbox-wrapper{
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-end;
+
+        @include for-pad{
+            justify-content: flex-start;
+
+            .filter_select:nth-child(3){
+                margin-right: 0px;
+            }
+        }
+
+        @include for-mobile{
+            width: 100%;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .filter_select{
+            cursor: pointer;
+            width: 190px;
+            margin-right: 20px;
+    
+            @include for-pad{
+                width: 208px;
+                margin-top: 20px;
+            }
+    
+            @include for-mobile{
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+
+        .filter_select:nth-child(4){
+            width: 135px;
+
+            @include for-mobile{
+                width: 100%;
+                margin: 10px 0 0;
+            }
+        }
+
+        .filter_label{
+            cursor: initial;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 26px;
+        }
+    
+        .filter_select_block{
+            position: relative;
+    
+            &._active{
+    
+                .filter_select_list{
+                    display: block;
+                }
+    
+                .filter_select_current:after{
+                    transform: rotate(-135deg);
+                    top: 17px;
+                }
+            }
+        }
+
+        .filter_input_block{
+            position: relative;
+    
+            input{
+                height: 39px;
+                line-height: 39px; 
+                white-space: nowrap;
+                box-shadow: inset 0 1px 2px rgba(140,140,140,.5);
+                border-radius: 2px;
+                padding: 0 16px 0 16px;
+                background: #fff;
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+        }
+    
+        .filter_select_current{
+            height: 39px;
+            white-space: nowrap;
+            box-shadow: inset 0 1px 2px rgba(140, 140, 140, 0.5);
+            border-radius: 2px;
+            padding: 0 65px 0 16px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+    
+            &:after{
+                content: '';
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                border-right: 2px solid $clrLightGrey;
+                border-bottom: 2px solid $clrLightGrey;
+                border-radius: 2px;
+                transform: rotate(45deg);
+                top: 13px;
+                right: 12px;
+                z-index: 2;
+            }
+    
+            p{
+                position: absolute;
+                top: 0;
+                left: 16px;
+                line-height: 38px;
+                font-size: 16px;
+                font-weight: 500;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: calc(100% - 42px);
+                color: #676d75;
+            }
+
+            &._disable_placeholder{
+                
+                p{
+                    
+                    color: #333;
+                }
+            }
+        }
+    
+        .filter_select_list{
+            display: none;
+            position: absolute;
+            min-width: 100%;
+            top: calc(100% - 1px);
+            padding: 12px 0 12px;
+            background-color: white;
+            border: 1px solid $clrLightGrey;
+            border-radius: 2px;
+            cursor: initial;
+            z-index: 3;
+        }
+    
+        .filter_select_item{
+            padding: 0 15px 0 15px;
+            white-space: nowrap; 
+            cursor: pointer;
+    
+            &:hover{
+                background: $clrGreen;
+    
+                p{
+                    color: white;
+                }
+            }
+    
+            &._active{
+                background: $clrUltraLightGrey;
+    
+                &:hover p{
+                    color: $clrBlack;
+                }
+            }
+    
+            p{
+                font-weight: 500;
+                line-height: 36px; 
+            }
+        }
+    
+        .filter_check{
+            height: 26px;
+            padding-left: 22px;
+            position: relative;
+            cursor: pointer;
+            white-space: nowrap;
+            margin: 15px 15px 0 0;
+    
+            @include for-pad{
+                width: calc((100% / 3) - 10px);
+            }
+    
+            @include for-mobile{
+                width: 100%;
+                margin: 20px 15px 0 0;
+            }
+    
+            &:before{
+                background: transparent;
+                content: '';
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                border: 1px solid #333333;
+                border-radius: 2px;
+                left: 0;
+                top: 0;
+            }
+    
+            &:after{
+                content: '';
+                position: absolute;
+                width: 5px;
+                height: 9px;
+                left: 6px;
+                transform: rotate(45deg);
+                top: 2px;
+                will-change: transform;
+            }
+    
+            &._checked:after{
+                border-bottom: 2px solid #D83603;
+                border-right: 2px solid #D83603;
+            }
+
+            .filter_check_item {
+                position: relative;
+                top: -3px;
+            }
+    
+            p{
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+
+        .input_wrapper{
+
+            input{
+                width: 135px;
+                padding: 0 20px 0 16px;
+                line-height: 40px;
+                background-color: white;
+                box-shadow: inset 0px 1px 2px rgba(140, 140, 140, 0.5);
+                border-radius: 2px;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .calendar_wrapper{
+                position: relative;
+            }
+
+            .open_calendar_button{
+                position: absolute;
+                top: -40px;
+                left: 0;
+                width: 135px;
+                height: 40px;
+
+                &:before{
+                    content: "";
+                    cursor: pointer;
+                    position: absolute;
+                    top: 9px;
+                    right: 10px;
+                    width: 20px;
+                    height: 20px;
+                    background: url("/img/calendar_icon.svg");
+                }
+
+                &:hover:before{
+                    background: url("/img/calendar_icon_active.svg");
+                  }
+            }
+
+            .open_calendar_button._active{
+
+                &:before{
+                  background: url("/img/calendar_icon_active.svg");
+                }   
+              }	
+
+            .calendar_container{
+                top: -2px;
+                left: 77px;
+
+                @include for-pad{
+                    left: 0px;
+
+                    .calendar:before{
+                        left: 106px;
+                    }
+                }
+
+                @include for-mobile{
+                    left: -20px;
+
+                    .calendar:before{
+                        left: 127px;
+                    }
+                }
+            }
+        }
+
+    }  
+
+    .filter_submit{
+        @include for-pad{
+            margin: 20px auto 0;
+        }
+
+        @include for-mobile{
+            margin-top: 20px;
+            width: 100%;
+        }
+    }
+
+    .filter_submit_button{
+        margin: 20px 0 0 0px;
+        background: #D83603;
+        font-size: 16px;
+        line-height: 50px;
+
+        @include for-pad{
+            margin: 0;
+        }
+
+        @include for-mobile{
+            margin: 0;
+            width: 100%;
+            text-align: center;
+        }
+    }
+}

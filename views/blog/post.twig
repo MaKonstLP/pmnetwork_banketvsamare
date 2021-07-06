@@ -1,0 +1,16 @@
+<div data-page-type="post">
+
+	{{ this.render('//components/generic/breadcrumbs.twig', {'breadcrumbs':seo.breadcrumbs}) | raw }}
+
+  	<div class="post_wrapper">
+
+  		<h1>{{ post.name}}</h1>
+
+  		<figure>
+		    <img src="{{ post.getFileData('image').src}}" alt="">
+		</figure>
+
+		{{ post.getHtml()|raw}}
+	</div>
+</div>
+
