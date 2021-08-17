@@ -1,5 +1,5 @@
 <?php
-namespace frontend\modules\gorko_ny\models;
+namespace frontend\modules\banketvsamare\models;
 
 use common\models\Pages;
 use common\models\siteobject\BaseMediaEnum;

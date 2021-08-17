@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\gorko_ny\controllers;
+namespace app\modules\banketvsamare\controllers;
 
 use Yii;
 use yii\base\InvalidParamException;
@@ -11,25 +11,33 @@ use common\models\elastic\RestaurantElastic;
 use common\models\elastic\ItemsWidgetElastic;
 use common\models\Seo;
 use frontend\components\QueryFromSlice;
-use frontend\modules\gorko_ny\models\ElasticItems;
-use frontend\modules\gorko_ny\components\Breadcrumbs;
-use frontend\modules\gorko_ny\components\RoomMicrodata;
+use frontend\modules\banketvsamare\models\ElasticItems;
+use frontend\modules\banketvsamare\components\Breadcrumbs;
+use frontend\modules\banketvsamare\components\RoomMicrodata;
 
 class ItemController extends Controller
 {
 
-	public function actionIndex($id)
+	public function actionIndex($slug)
 	{
 		$elastic_model = new ElasticItems;
-		$item = $elastic_model::find()
-		->query(['bool' => ['must' => ['match'=>['restaurant_unique_id' => $id]]]])
-		->limit(1)
-		->search();
-
-		$item = $item['hits']['hits'][0];
+		$item = $elastic_model::find()->query([
+			'bool' => [
+				'must' => [
+					['match' => ['restaurant_slug' => $slug]],
+					['match' => ['restaurant_city_id' => \Yii::$app->params['subdomen_id']]],
+				],
+			]
+		])->one();
 
 		if(!$item)
 			throw new \yii\web\NotFoundHttpException();
+
+		Yii::$app->params['is_item'] = true;
+		Yii::$app->params['item'] = $item;
+		//echo '<pre>';
+		//print_r($item);
+		//exit;
 
 		$seo = new Seo('item', 1, 0, $item, 'rest');
 		$seo = $seo->seo;
@@ -90,7 +98,7 @@ class ItemController extends Controller
 
 		return $this->render('index.twig', array(
 			'item' => $item,
-			'queue_id' => $id,
+			//'queue_id' => $id,
 			'seo' => $seo,
 			'other_rooms' => $other_rooms,
 			'microdata' => $microdata,

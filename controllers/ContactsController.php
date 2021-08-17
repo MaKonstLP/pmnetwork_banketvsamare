@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\gorko_ny\controllers;
+namespace app\modules\banketvsamare\controllers;
 
 use Yii;
 use yii\web\Controller;
@@ -15,6 +15,19 @@ class ContactsController extends Controller
         $this->setSeo($seo);
 
 		return $this->render('index.twig', array(
+			'seo' => $seo,
+			'year' => date('Y') + 1,
+			'city_rod' => Yii::$app->params['subdomen_rod']
+		));
+	}
+
+	public function actionTest(){
+
+        $this->view->params['menu'] = 'contacts';
+		$seo = $this->getSeo('contacts');
+        $this->setSeo($seo);
+
+		return $this->render('test.twig', array(
 			'seo' => $seo,
 			'year' => date('Y') + 1,
 			'city_rod' => Yii::$app->params['subdomen_rod']

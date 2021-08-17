@@ -1,205 +1,28 @@
 .form_wrapper.callback {
-  display: flex;
-  position: relative;
-  width: 954px;
-  padding: 20px 120px 50px 120px;
-  flex-flow: column nowrap;
-  align-items: center;
-  background: linear-gradient(139.76deg,
-                            #FEDA5A 0.69%,
-                            #FFBA35 112.92%);
-  box-shadow: 0px 5px 20px rgba(253, 172, 77, 0.3);
+	.form_submit_callback {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 
-  @include for-pad{
-    width: 532px;
-    padding: 20px 20px 32px 20px;
+		
+		.form_policy {
+			margin-bottom: 15px;
 
-    // &:before{
-    //   content: "";
-    //   position: absolute;
-    //   top: 0;
-    //   left: -100px;
-    //   width: 768px;
-    //   height: 277px;
-    //   // background: url("/img/filter_pad_bg/form_Left_branch.png");
-    //   background: url(/img/big_form_bg.png);
-    //   background-repeat: no-repeat;
-    //   z-index: -1;
-    // }
+			@include for-mobile {
+				margin-bottom: 17px;
+			}
+		}
 
-    // &:after{
-    //   content: "";
-    //   position: absolute;
-    //   top: 50px;
-    //   right: -100px;
-    //   width: 270px;
-    //   height: 277px;
-    //   background: url("/img/filter_pad_bg/form_Right_branch.png");
-    //   background-repeat: no-repeat;
-    //   z-index: -1;
-    // }
-  }
+		.form_submit_button {
+			cursor: pointer;
+			width: 290px;
+			height: 45px;
+			background-color: $clrLightPink;
+			border-radius: 100px;
+			font-size: 16px;
+			line-height: 23px;
+			font-weight: 600;
+		}
 
-  @include for-mobile{
-    width: 100%;
-    margin: 50px 0 0;
-    padding: 25px 15px 50px 15px;
-
-    &:before{
-      content: none;
-    }
-
-    &:after{
-      content: none;
-    }
-  }
-
-  .form_title{
-    display: flex;
-    flex-flow: column nowrap;
-    width: 709px;
-
-    @include for-pad{
-      width: 532px;
-    }
-
-    @include for-mobile{
-      width: 100%;
-
-      .form_title_main{
-        font-size: 28px;
-        line-height: 32px;
-        margin: 0;
-        text-align: center;
-      }
-    }
-
-    .form_title_main{
-      color: #000000;
-    }
-    .form_title_desc{
-      color: #333333;
-      text-align: center;
-      margin-top: 10px;
-    }
-  }
-
-  .form_block{
-    display: flex;
-    flex-flow: column wrap;
-
-    @include for-mobile{
-      width: 100%;
-      align-items: center;
-    }
-
-
-    .form_inputs {
-      display: flex;
-      flex-flow: column wrap;
-      align-items: flex-start;
-      width: 709px;
-      height: 170px;
-
-      @include for-pad{
-        width: 492px;
-        height: 258px;
-        flex-flow: row wrap;
-        justify-content: space-between;
-      }
-
-      @include for-mobile{
-        width: 100%;
-        height: 324px;
-        flex-flow: column nowrap;
-        align-items: center;
-      }
-
-
-      .input_wrapper{
-        width: 243px;
-        margin-bottom: 19px;
-
-        @include for-pad{
-          width: calc(50% - 10px);
-          margin-right: 0px;
-        }
-
-        @include for-mobile{
-          width: 100%;
-          margin: 0 0 10px 0;
-        }
-
-        input{
-          border: none;
-          background: white;
-          box-shadow: inset 0px 1px 2px rgba(140, 140, 140, 0.5);
-        }
-
-        textarea{
-          background: white;
-          width: 435px;
-          height: 126px;
-          padding: 9px 16px 6px 16px;
-          resize: none;
-          box-shadow: inset 0px 1px 2px rgba(140, 140, 140, 0.5);
-          border-radius: 2px;
-
-          @include for-notdesc {
-            width: 100%;
-          }
-        }
-      }
-
-      .input_wrapper:nth-child(3) {
-        width: 435px;
-
-        @include for-notdesc{
-          width: 100%;
-        }
-      }
-
-      .input_wrapper:nth-child(n + 4){
-        display: none;
-      }
-    }
-
-    .form_submit_callback{
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: flex-start;
-      align-items: center;
-
-      @include for-pad{
-        margin-top: 0;
-        //flex-flow: column nowrap;
-
-        .form_policy{
-          margin-top: 10px;
-        }
-      }
-
-      @include for-mobile{
-        margin-top: 0;
-        flex-flow: column nowrap;
-
-        .form_policy{
-          margin-top: 10px;
-        }
-      }
-
-      ._button{
-        width: 130px;
-        height: 50px;
-        margin-right: 10px;
-        padding: 0 20px;
-      }
-
-      .form_policy{
-        
-      }
-    }
-
-  }
+	}
 }
-

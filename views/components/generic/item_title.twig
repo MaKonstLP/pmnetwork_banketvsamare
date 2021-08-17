@@ -4,7 +4,14 @@
 
 	<h1>{{seo.h1}}</h1>
 
+
+	<div class="title_type">
+		{% for type in item.restaurant_types %}
+			{{type.name}}<span>,</span> 
+		{% endfor %}
+	</div>
+
 	{#<div class="title_desc"><p>{{seo.desc}}</p></div>#}
-	<div class="title_address"><a data-title-address>{{seo.address}}</a></div>
+	<div class="title_address"><a class="_link" data-title-address>{{seo.address}}</a></div>
 
 </div>

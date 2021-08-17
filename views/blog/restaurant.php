@@ -1,5 +1,5 @@
 <?php
-use frontend\modules\gorko_ny\models\ElasticItems;
+use frontend\modules\banketvsamare\models\ElasticItems;
 
 $elastic_model = new ElasticItems;
 $item = $elastic_model::get($text_id);

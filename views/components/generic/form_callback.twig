@@ -1,68 +1,72 @@
 <div class="form_wrapper callback">
 
-  <div class="form_title">
-		<p class="form_title_main">Не можете выбрать?</p>
-		<p class="form_title_desc">Заполните форму, мы свяжемся с вами и поможем подобрать лучшую площадку для новогоднего праздника.</p>
+	<div class="form_title">
+		<p class="form_title_main">Запрос банкетному менеджеру</p>
+		<p class="form_title_desc">Услуги банкетного менеджера предоставляются бесплатно</p>
 	</div>
 
-  <form class="form_block" action="/ajax/form/"  data-type="{{type ? type : 'main'}}">
+	<form class="form_block" action="/ajax/form/"  data-type="{{type ? type : 'main'}}">
 
-    <div class="form_inputs">
-    
-      <div class="input_wrapper">
-        <div class="input_label">Как Вас зовут</div>
-        <input type="text" name="name" placeholder="Имя" data-required/>
-      </div>
-      <div class="input_wrapper">
-        <div class="input_label">Номер телефона</div>
-        <input type="text" name="phone" placeholder="+7 (___) ___-__-__" data-required autocomplete="off"/>
-      </div>
-      <div class="input_wrapper">
-        <div class="input_label">Вопрос</div>
-        <textarea name="question" placeholder="Введите текст вопроса"></textarea>
-      </div>
-      <div class="input_wrapper">
-        <div class="input_label">{{ budgetLabel }}</div>
-        <input type="text" name="budget" placeholder="от {{ minPrice|number_format(0, ',', ' ') }}"/>
-      </div>
-      <div class="input_wrapper">
-        <div class="input_label">Эл. почта</div>
-        <input type="text" name="email" placeholder="Почта"/>
-      </div>
-      <div class="input_wrapper">
-        <div class="input_label">Дата</div>
-        <input type="text" name="date" placeholder="Дата"/>
-        <div class="calendar_wrapper">
-          <div class="open_calendar_button"></div>
-          <div class="calendar_container _hide">
-            <div class="calendar"></div>
-          </div>
-        </div>
-      </div>
-      <div class="input_wrapper">
-        <div class="input_label">Число гостей</div>
-        <input type="text" name="guests_number" placeholder="от 10 человек"/>
-      </div>
-
-    </div>
-
-    <div class="form_submit_callback">
-			<button class="_button" type="submit">Отправить</button>
-			<div class="form_policy checkbox_item _active" data-action="form_checkbox" data-form-privacy>
-				<input type="checkbox" name="policy" class="personalData" checked=""  data-required>
-				<p class="checkbox_pseudo">Я согласен с <a class="_link" href="/privacy/" target="_blank">политикой обработки персональных данных</a></p>
+		<div class="form_inputs">
+		
+			<div class="input_wrapper">
+				{# <div class="input_label">Как Вас зовут</div> #}
+				<input type="text" name="name" placeholder="Ваше имя" data-required/>
+				</div>
+			<div class="input_wrapper">
+				{# <div class="input_label">Номер телефона</div> #}
+				<input type="text" name="phone" placeholder="+7 (999) 999 - 99 - 99" data-required autocomplete="off"/>
 			</div>
+			<div class="input_wrapper">
+				{# <div class="input_label">Номер телефона</div> #}
+				<input type="text" name="amount" placeholder="Количество человек" data-required autocomplete="off"/>
+			</div>
+			<div class="input_wrapper _textarea">
+				{# <div class="input_label">Вопрос</div> #}
+				<textarea name="question" placeholder="Напишите ваши пожелания"></textarea>
+			</div>
+			{# <div class="input_wrapper">
+			<div class="input_label">{{ budgetLabel }}</div>
+			<input type="text" name="budget" placeholder="от {{ minPrice|number_format(0, ',', ' ') }}"/>
+			</div>
+			<div class="input_wrapper">
+			<div class="input_label">Эл. почта</div>
+			<input type="text" name="email" placeholder="Почта"/>
+			</div>
+			<div class="input_wrapper">
+			<div class="input_label">Дата</div>
+			<input type="text" name="date" placeholder="Дата"/>
+			<div class="calendar_wrapper">
+				<div class="open_calendar_button"></div>
+				<div class="calendar_container _hide">
+					<div class="calendar"></div>
+				</div>
+			</div>
+			</div>
+			<div class="input_wrapper">
+			<div class="input_label">Число гостей</div>
+			<input type="text" name="guests_number" placeholder="от 10 человек"/>
+			</div> #}
+
 		</div>
 
-  </form>
-  <div class="form_success">
-    <div class="header_form_popup_message_sent _hide" data-success>
+		<div class="form_submit_callback">
+			<div class="form_policy checkbox_item _active" data-action="form_checkbox" data-form-privacy>
+				<input type="checkbox" name="policy" class="personalData" checked=""  data-required>
+				<p class="checkbox_pseudo">Согласен с <a class="_link" href="/politika-konfidentsialnosti/" target="_blank">политикой конфиденциальности</a></p>
+			</div>
+			<button class="form_submit_button _button" type="submit">Отправить</button>
+		</div>
 
-            <h2>Заявка отправлена</h2>
-            <p class="header_form_popup_message"><span data-success-name></span>, спасибо за проявленный интерес. Наши менеджеры свяжутся с вами<br>в течение дня и помогут подобрать зал для корпоратива.</p>
-            <p class="header_form_popup_message_close _link" data-success-close>Понятно, закрыть</p>
-            <div class="close_button"></div>
+	</form>
+	<div class="form_success">
+		<div class="header_form_popup_message_sent _hide" data-success>
 
-        </div>
-  </div>
+					<h2>Мы получили вашу заявку!</h2>
+					<p class="header_form_popup_message">В ближайшее время наш сотрудник свяжется с вами по телефону <span data-success-phone></span> для уточнения деталей.</p>
+					{# <p class="header_form_popup_message_close _link" data-success-close>Понятно, закрыть</p> #}
+					<div class="close_button"></div>
+
+			</div>
+	</div>
 </div>

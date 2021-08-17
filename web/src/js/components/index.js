@@ -19,8 +19,8 @@ export default class Index{
 		this.filter.filterMainSubmit();
 		this.filter.promise.then(
 			response => {
-				ym(66603799,'reachGoal','filter');
-				dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Filter'});
+				//ym(66603799,'reachGoal','filter');
+				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Filter'});
 				window.location.href = response;
 			}
 		);

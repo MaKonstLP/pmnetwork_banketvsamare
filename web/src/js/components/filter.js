@@ -2,8 +2,8 @@
 
 import Inputmask from 'inputmask';
 
-export default class Filter{
-	constructor($filter){
+export default class Filter {
+	constructor($filter) {
 		let self = this;
 		this.$filter = $filter;
 		this.state = {};
@@ -11,64 +11,74 @@ export default class Filter{
 		this.init(this.$filter);
 
 		//КЛИК ПО БЛОКУ С СЕЛЕКТОМ
-		this.$filter.find('[data-filter-select-current]').on('click', function(){
+		this.$filter.find('[data-filter-select-current]').on('click', function () {
 			let $parent = $(this).closest('[data-filter-select-block]');
-			self.selectBlockClick($parent);	
+			self.selectBlockClick($parent);
+
+			if ($(window).width() < '768') {
+				$('body').toggleClass('_overflow')
+			}
 		});
 
 		//КЛИК ПО СТРОКЕ В СЕЛЕКТЕ
-		this.$filter.find('[data-filter-select-item]').on('click', function(){
+		this.$filter.find('[data-filter-select-item]').on('click', function () {
 			$(this).toggleClass('_active');
 			self.selectStateRefresh($(this).closest('[data-filter-select-block]'));
 		});
 
 		//КЛИК ПО ЧЕКБОКСУ
-		this.$filter.find('[data-filter-checkbox-item]').on('click', function(){
+		this.$filter.find('[data-filter-checkbox-item]').on('click', function () {
 			$(this).toggleClass('_checked');
 			self.checkboxStateRefresh($(this));
 		});
 
 		//КЛИК ВНЕ БЛОКА С СЕЛЕКТОМ
-		$('body').click(function(e) {
-		    if (!$(e.target).closest('.filter_select_block').length){
-		    	self.selectBlockActiveClose();
-		    }
+		$('body').click(function (e) {
+			if (!$(e.target).closest('.filter_select_block').length) {
+				self.selectBlockActiveClose();
+			}
+		});
+
+		//КЛИК ПО КНОПКЕ СБРОСИТЬ
+		this.$filter.find('[data-filter-reset]').on('click', function () {
+			$(this).closest('[data-filter-select-block]').find('[data-filter-select-item]._active').removeClass('_active');
+			self.selectStateRefresh($(this).closest('[data-filter-select-block]'));
 		});
 
 		//ИНПУТ
-		this.$filter.find('[data-filter-input-block] input').on("keyup", function(event) {
-		    var selection = window.getSelection().toString(); 
-		    if (selection !== '') {
-		        return; 
-		    }      
-		    if ($.inArray(event.keyCode, [38, 40, 37, 39]) !== -1) {
-		        return; 
-		    }       
-		    var $this = $(this);
-		    var input = $this.val();
-		    input = input.replace(/[\D\s\._\-]+/g, ""); 
-		    input = input?parseInt(input, 10):0;
+		this.$filter.find('[data-filter-input-block] input').on("keyup", function (event) {
+			var selection = window.getSelection().toString();
+			if (selection !== '') {
+				return;
+			}
+			if ($.inArray(event.keyCode, [38, 40, 37, 39]) !== -1) {
+				return;
+			}
+			var $this = $(this);
+			var input = $this.val();
+			input = input.replace(/[\D\s\._\-]+/g, "");
+			input = input ? parseInt(input, 10) : 0;
 
-		    self.inputStateRefresh($(this).attr('name'), input);
-		    $this.val(function () {
-		        return (input === 0)?"":input.toLocaleString("ru-RU"); 
-		    }); 
-		}); 
+			self.inputStateRefresh($(this).attr('name'), input);
+			$this.val(function () {
+				return (input === 0) ? "" : input.toLocaleString("ru-RU");
+			});
+		});
 	}
 
-	init(){
+	init() {
 		let self = this;
 
-		this.$filter.find('[data-filter-select-block]').each(function(){
+		this.$filter.find('[data-filter-select-block]').each(function () {
 			self.selectStateRefresh($(this));
 		});
 
-		this.$filter.find('[data-filter-checkbox-item]').each(function(){
+		this.$filter.find('[data-filter-checkbox-item]').each(function () {
 			self.checkboxStateRefresh($(this));
 		});
 
 		let $budgetValue = this.$filter.find('[data-filter-budget-input]');
-		if (+$budgetValue.data('value') > 0){
+		if (+$budgetValue.data('value') > 0) {
 			console.log($budgetValue.data('value'));
 			this.state['price'] = $budgetValue.data('value');
 		} else {
@@ -77,148 +87,177 @@ export default class Filter{
 
 	}
 
-	filterListingSubmit(page = 1){
+	filterListingSubmit(page = 1) {
 		let self = this;
 		self.state.page = page;
 
 		let data = {
-			'filter' : JSON.stringify(self.state)
+			'filter': JSON.stringify(self.state)
 		}
 
-		this.promise = new Promise(function(resolve, reject) {
+		this.promise = new Promise(function (resolve, reject) {
 			self.reject = reject;
 			self.resolve = resolve;
-	    });		
-		
-		$.ajax({
-            type: 'get',
-            url: '/ajax/filter/',
-            data: data,
-            success: function(response) {
-            	response = $.parseJSON(response);
-                self.resolve(response);
-            },
-            error: function(response) {
+		});
 
-            }
-        });
+		$.ajax({
+			type: 'get',
+			url: '/ajax/filter/',
+			data: data,
+			success: function (response) {
+				response = $.parseJSON(response);
+				self.resolve(response);
+			},
+			error: function (response) {
+
+			}
+		});
 	}
 
-	filterMainSubmit(){
+	filterMainSubmit() {
 		let self = this;
 		let data = {
-			'filter' : JSON.stringify(self.state)
+			'filter': JSON.stringify(self.state)
 		}
 
-		this.promise = new Promise(function(resolve, reject) {
+		this.promise = new Promise(function (resolve, reject) {
 			self.reject = reject;
 			self.resolve = resolve;
-	    });
+		});
 
 		$.ajax({
-            type: 'get',
-            url: '/ajax/filter-main/',
-            data: data,
-            success: function(response) {
-            	if(response){
-            		//console.log(response);
-            		self.resolve('/ploshhadki/'+response);
-            	}
-            	else{
-            		//console.log(response);
-            		self.resolve(self.filterListingHref());
-            	}
-            },
-            error: function(response) {
+			type: 'get',
+			url: '/ajax/filter-main/',
+			data: data,
+			success: function (response) {
+				if (response) {
+					//console.log(response);
 
-            }
-        });
+					// self.resolve('/ploshhadki/' + response);
+					self.resolve('/' + response);
+
+				}
+				else {
+					//console.log(response);
+					self.resolve(self.filterListingHref());
+				}
+			},
+			error: function (response) {
+
+			}
+		});
 	}
 
-	selectBlockClick($block){
-		if($block.hasClass('_active')){
+	selectBlockClick($block) {
+		if ($block.hasClass('_active')) {
 			this.selectBlockClose($block);
 		}
-		else{
-			this.selectBlockOpen($block);			
+		else {
+			this.selectBlockOpen($block);
 		}
 	}
 
-	selectBlockClose($block){
+	selectBlockClose($block) {
 		$block.removeClass('_active');
 	}
 
-	selectBlockOpen($block){
+	selectBlockOpen($block) {
 		this.selectBlockActiveClose();
 		$block.addClass('_active');
 	}
 
-	selectBlockActiveClose(){
-		this.$filter.find('[data-filter-select-block]._active').each(function(){
+	selectBlockActiveClose() {
+		this.$filter.find('[data-filter-select-block]._active').each(function () {
 			$(this).removeClass('_active');
 		});
 	}
 
-	selectStateRefresh($block){
+	selectStateRefresh($block) {
 		let self = this;
-		let blockType = $block.data('type');		
+		let blockType = $block.data('type');
 		let $items = $block.find('[data-filter-select-item]._active');
 		let $currentSelect = $block.find('[data-filter-select-current]');
 		let selectText = $currentSelect.data('placeholder');
+		let selectTextSpan = '';
+		let resetButton = $block.find('.filter_select_reset_button');
 
-		if($items.length > 0){
+		if ($items.length > 0) {
 			self.state[blockType] = '';
-			$items.each(function(){
-				if(self.state[blockType] !== ''){
-					self.state[blockType] += ','+$(this).data('value');
-					selectText = 'Выбрано ('+$items.length+')';
+			$items.each(function () {
+				if (self.state[blockType] !== '') {
+					self.state[blockType] += ',' + $(this).data('value');
+					// selectText = 'Выбрано (' + $items.length + ')';
+
+					if ($currentSelect.data('placeholder') == 'Тип места') {
+						selectText = $currentSelect.data('placeholder');
+						selectTextSpan = ' (' + $items.length + ')';
+					} else {
+						selectText = 'Гостей ';
+						selectTextSpan = ' (' + $items.length + ')';
+						// 	selectTextSpan = $items.length;
+					}
+
 					$currentSelect.addClass('_disable_placeholder');
+					resetButton.addClass('_active');
 				}
-				else{
+				else {
 					self.state[blockType] = $(this).data('value');
 					selectText = $(this).text();
 					$currentSelect.addClass('_disable_placeholder');
+
+					resetButton.addClass('_active');
 				}
 			});
 		}
-		else{
+		else {
 			delete self.state[blockType];
 			$currentSelect.removeClass('_disable_placeholder');
+			resetButton.removeClass('_active');
 		}
 
-		$block.find('[data-filter-select-current] p').text(selectText);
+		$block.find('[data-filter-select-current] p').html(selectText + '<span> ' + selectTextSpan + '</span>');
+
+		// $block.find('[data-filter-select-current] p').text(selectText).append('<span>' + selectTextSpan + '</span>');
+
+		$block.find('[data-filter-button]').text('Применить ' + selectTextSpan);
 	}
 
-	checkboxStateRefresh($item){
+	checkboxStateRefresh($item) {
 		let blockType = $item.closest('[data-type]').data('type');
-		if($item.hasClass('_checked')){
+		if ($item.hasClass('_checked')) {
 			this.state[blockType] = $item.find('[data-value]').data('value');
 		}
-		else{
+		else {
 			delete this.state[blockType];
 		}
 		// console.log(this.state);
 	}
 
-	inputStateRefresh(type, val){
-		if(val > 0){
+	inputStateRefresh(type, val) {
+		if (val > 0) {
 			this.state[type] = val;
 		}
-		else{
+		else {
 			delete this.state[type];
 		}
 	}
 
-	filterListingHref(){
-		if(Object.keys(this.state).length > 0){
-			var href = '/ploshhadki/?';
-			$.each(this.state, function(key, value){
+	filterListingHref() {
+		if (Object.keys(this.state).length > 0) {
+
+			// var href = '/ploshhadki/?';
+			var href = '/?';
+
+			$.each(this.state, function (key, value) {
 				href += '&' + key + '=' + value;
 			});
 		}
-		else{
-			var href = '/ploshhadki/';
-		}			
+		else {
+
+			// var href = '/ploshhadki/';
+			var href = '/';
+
+		}
 
 		return href;
 	}

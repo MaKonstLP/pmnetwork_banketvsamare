@@ -1,12 +1,12 @@
 <?php
 
-namespace app\modules\gorko_ny;
+namespace app\modules\banketvsamare;
 
 
 use Yii;
 use common\models\Subdomen;
 use common\models\elastic\ItemsFilterElastic;
-use frontend\modules\gorko_ny\models\ElasticItems;
+use frontend\modules\banketvsamare\models\ElasticItems;
 
 /**
  * svadbanaprirode module definition class
@@ -16,7 +16,7 @@ class Module extends \yii\base\Module
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'app\modules\gorko_ny\controllers';
+    public $controllerNamespace = 'app\modules\banketvsamare\controllers';
 
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         $subdomen = explode('.', $_SERVER['HTTP_HOST'])[0];
-        if($subdomen != 'korporativ-ng'){
+        if($subdomen != 'banketvsamare'){
             Yii::$app->params['subdomen'] = $subdomen;
 
             $subdomen_model = Subdomen::find()
@@ -38,7 +38,7 @@ class Module extends \yii\base\Module
             Yii::$app->params['subdomen'] = '';
 
             $subdomen_model = Subdomen::find()
-                ->where(['alias' => ''])
+                ->where(['alias' => 'samara'])
                 ->one();
         }
 

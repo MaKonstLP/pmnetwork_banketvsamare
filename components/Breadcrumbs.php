@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\gorko_ny\components;
+namespace frontend\modules\banketvsamare\components;
 
 use Yii;
 

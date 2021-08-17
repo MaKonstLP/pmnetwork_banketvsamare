@@ -2,15 +2,63 @@
 
 	{{ this.render('//components/generic/breadcrumbs.twig', {'breadcrumbs':seo.breadcrumbs}) | raw }}
 
+	<div class="content_block" data-listing-title>
+		<div class="content_block_wrap">
+			<a href="/blog/" class="link_back"><span>Назад</span></a>
+
+			<div class="title">
+				<h1>{{ post.name}}</h1>
+				<p class="date">{{ post.rusDate }}</p>
+			</div>
+		</div>
+	</div>
+
   	<div class="post_wrapper">
 
-  		<h1>{{ post.name}}</h1>
-
-  		<figure>
+  		{# <figure>
 		    <img src="{{ post.getFileData('image').src}}" alt="">
-		</figure>
+		</figure> #}
 
 		{{ post.getHtml()|raw}}
+
+		{% if similarPosts %}
+			<div class="similar_posts">
+
+				<div class="similar_posts_title">
+					<h2>Возможно будет интересно</h2>
+					<a href="/blog/">Смотреть все</a>
+				</div>
+
+				<div class="similar_posts_list" data-other-blogs-list>
+					{% for similarPost in similarPosts %}
+						<div class="blog_item">
+							<a href="{{ similarPost.getUrl() }}"><img class="blog_item_img" src="{{ similarPost.getFileData('image').src }}"></a>
+							<p class="blog_item_title">
+								<a href="{{ similarPost.getUrl() }}">{{ similarPost.name }}</a>
+							</p>
+							<p class="blog_item_text">{{ similarPost.short_intro }}</p>
+							<p class="blog_item_date">{{similarPost.getRusDate()}}</p>
+						</div>
+					{% endfor %}
+				</div>
+
+			</div>
+		{% endif %}
+
+	</div>
+	
+	<div class="content_block content_block_map _popup">
+		<div class="map_popup_container">
+			<div class="map_popup_info">
+				<div class="map_popup_title">{{ items[0].restaurant_name }}</div>
+				<div class="map_popup_address"><span>{{ items[0].restaurant_address }}</span></div>
+				<a href="tel:{{ items[0].restaurant_phone|replace({' ':'', '-':''}) }}" class="map_popup_phone"><span>{{ items[0].restaurant_phone }}</span></a>
+				<div class="map_popup_close"></div>
+			</div>
+
+			<div class="map_popup">
+				<div id="map_popup" data-mapDotX="{{items[0].restaurant_latitude}}" data-mapDotY="{{items[0].restaurant_longitude}}" data-name="{{items[0].restaurant_name}}" data-address="{{items[0].restaurant_address}}" data-balloon="" data-hint=""></div>
+			</div>
+		</div>
 	</div>
 </div>
-

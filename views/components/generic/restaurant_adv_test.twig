@@ -1,100 +1,126 @@
 <div class="restaurant_adv_wrapper">
-  <div class="item_page_wrapper">
+	<div class="item" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" data-restaurant-phone="{{item.restaurant_phone}}" 
+	data-restaurant-mapDotX="{{item.restaurant_latitude}}" data-restaurant-mapDotY="{{item.restaurant_longitude}}">
 
-    <div class="content_block" data-listing-title>
-      
-      <div class="title">
+		<div class="item_info_top">
+			<div class="item_info_top_description">
+				<a href="/banket-{{item.restaurant_slug}}/" class="item_name">
+					{{item.restaurant_name}}
+				</a>
+				<p class="item_type">
+					{% for type in item.restaurant_types %}
+						{{type.name}}<span>,</span> 
+					{% endfor %}
+				</p>
+				{% if type != 'other' %}
+					<p class="item_address" data-title-address><span class="_link">{{item.restaurant_address}}</span></p>
+				{% endif %}
+			</div>
+			<div class="item_info_contacts _button_green" data-title-address>
+				<span>Показать контакты</span>
+			</div>
+		</div>
 
-  	    <h2>{{item.restaurant_name}}</h2>
+		{% if item.rooms|length == 1 %}
 
-  	    <div class="title_address"><a data-title-address>{{item.restaurant_address}}</a></div>
+			<div class="swiper-container item_listing_slider item_listing_slider_rooms">
+				<div class="item_slider_wrapper swiper-wrapper">
 
-      </div>
+					{% for room in item.rooms %}
+						{% for image in room.images %}
 
-    </div>
+							<a href="/banket-{{item.restaurant_slug}}/" class="item_slide swiper-slide">
+								<div class="item_slide_img item_slide_room_img">
+									<img src="{{image.subpath}}=w440-h302-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}">
+								</div>
+							</a>
 
-    <div class="content_block">
+						{% endfor %}
+					{% endfor %}
+						
+				</div>
 
-      <div class="object_head">
+				<div class="item_slider_prev swiper-button-prev"></div>
+				<div class="item_slider_next swiper-button-next"></div>
+			</div>
 
-        <div class="object_gallery post_item_gallery_wrap" data-gallery data-id="{{item.restaurant_id}}">
+			{% for room in item.rooms %}
+				<div class="item_room_info">
+					{{room.name}} на {{room.capacity}} гостей 
+					{% if room.price != '' %}
+						от <span>{{room.price}} ₽</span> на человека
+					{% endif %}
+				</div>
+			{% endfor %}
 
-          <div class="swiper-container post-item-gallery-top">
+		{% else %}
 
-            <div class="swiper-wrapper">
-              {% for image in item.restaurant_images %}
-                  <div class="swiper-slide" style="background-image:url({{image.subpath}}=w710-h472-n-l95)"></div>
-              {% endfor %}
+			<div class="swiper-container item_listing_slider">
+				<div class="item_slider_wrapper swiper-wrapper">
 
-            </div>
+					{% for room in item.rooms %}
 
-          </div>
+						<a href="/banket-{{item.restaurant_slug}}/" class="item_slide swiper-slide">
+							<div class="item_slide_img">
+								{% if room.images|length == 0 %}
+									<img src="{{room.cover_url}}" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}">
+								{% else %}
+									<img src="{{room.images[0].subpath}}=w440-h302-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}">
+								{% endif %}
+							</div>
+							<div class="item_slide_info">
+								<div class="item_slide_name">
+									{{room.name}}
+								</div>
+								<div class="item_meta">
+									<div class="item_meta_item">
+										<span class="item_meta_label">Зал на </span><span class="item_meta_text">{{room.capacity}} гостей</span>
+									</div>
+									{% if room.price != '' %}
+										<div class="item_meta_item">
+											от <span class="item_meta_price">{{room.price}} ₽</span> на человека
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</a>
 
-          <div class="swiper-container post-item-gallery-thumbs">
+					{% endfor %}
 
-            <div class="swiper-wrapper">
-              {% for image in item.restaurant_images %}
-                  <div class="swiper-slide" style="background-image:url({{image.subpath}}=w138-h92-n-l95)"></div>
-              {% endfor %}
+				</div>
+				<div class="item_slider_prev swiper-button-prev"></div>
+				<div class="item_slider_next swiper-button-next">
+					
+				</div>
+				
+			</div>
 
-            </div>
+		{% endif %}
 
-          </div>
+		<div class="item_info_bot">
+			{% if item.restaurant_cuisine != '' %}
+				<div class="item_info_bot_text item_cuisine">
+					Кухня: <span>{{item.restaurant_cuisine}}</span>
+				</div>
+			{% endif %}
+			<div class="item_info_bot_text item_own_cuisine">
+				Есть своя кухня
+			</div>
+			{% if item.restaurant_extra_services != '' %}
+				<div class="item_info_bot_text item_special">
+					Особенности: <span>{{item.restaurant_extra_services}}</span>
+				</div>
+			{% endif %}
 
-        </div>
+			{% if item.restaurant_own_alcohol != 'Нельзя свой алкоголь' and item.restaurant_own_alcohol != '' %}
+				<div class="item_info_bot_text item_own_alcohol">
+					{{item.restaurant_own_alcohol}}
+				</div>
+			{% endif %}
 
-        <div class="object_main_info">
-          <p>Стоимость: от <span>{{item.restaurant_price}} ₽/чел.</span></p>
-          <p>Вместимость: до <span>{{item.restaurant_max_capacity}} персон</span></p>
+		</div>
 
-        </div>
+		<a href="/banket-{{item.restaurant_slug}}/" class="item_btn_more _button _pink_button">Подробнее</a>
 
-        <div class="object_book">
-
-          <p class="object_book_text">Узнать об актуальных акциях и забронировать можно по телефону:</p>
-
-          <div class="object_book_hidden">
-                    <p class="object_book_phone">
-                        <span class="object_fake_phone">+7 <span class="object_fake_phone_snowflakes">❆❆❆ ❆❆❆ ❆❆ ❆❆</span></span>
-                        <a href="tel:{{item.restaurant_phone}}" class="object_real_phone">{{item.restaurant_phone}}</a>
-                    </p>
-
-                    <div class="object_book_hidden_button _link" data-action="show_phone">Показать номер</div>                          
-                </div>
-                <div class="object_book_email">
-                    <div class="object_book_email_text" data-book-open>
-                        <p class="_pseudolink">Отправить инфо о ресторане себе на эл. почту</p>
-                    </div>
-                    <div class="object_book_email_form">
-                        <form class="form_block" action="/ajax/sendroom/" data-type="book">
-                            <div class="form_inputs">
-                                <div class="input_wrapper">
-                                    <input type="email" name="book_email" data-book-email-id="{{item.id}}">
-                                    <input type="hidden" name="room_id" value="{{item.id}}">
-                                </div>
-                            </div>
-                            <input type="submit" class="object_book_email_button _button" value="Отправить"/>
-                        </form>
-                    </div>
-                    <div class="object_book_email_success">
-                        <p class="object_book_email_success_text">Мы отправили информацию на почту</p>
-                        <p class="object_book_email_success_reload _pseudolink" data-book-email-reload>Отправить еще раз</p>
-                    </div>
-                </div>
-
-          <p class="object_book_action">Забронируй зал в ресторане {{item.restaurant_name}} до 01.12.2020 и получи новогодний подарок!</p>
-
-        </div>
-
-        <a class="object_more_info" href="/ploshhadki/{{item.id}}/">
-
-          <button class="_button">Посмотреть зал →</button>
-
-        </a>
-
-      </div>
-
-    </div>
-
-  </div>
+	</div>
 </div>

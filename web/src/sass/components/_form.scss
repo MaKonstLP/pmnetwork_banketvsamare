@@ -1,156 +1,254 @@
-.form_wrapper{
-	width: 100%;
-	background: white;
-	border-radius: 5px;
-	box-shadow: 0px 5px 20px rgba(47, 61, 2, 0.1);
-	padding: 25px 75px 40px;
+.form_wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 1440px;
+	background-color: $clrLightBlue;
+	padding: 30px;
+	margin: 0 auto;
 
-	button.button__pending{
+	@include for-lowdesc {
+		width: calc(100% - 40px);
+	}
+
+	@include for-lowlap {
+		width: 100%;
+		padding: 30px 15px;
+	}
+
+	button.button__pending {
 		background: #df6038;
 		pointer-events: none;
 	}
 
-	.header_form_popup_message_sent{
+	.header_form_popup_message_sent {
 		display: flex;
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: 100%;
-	    background: linear-gradient(139.76deg,#feda5a .69%,#ffba35 112.92%);
-	    border-radius: 5px;
-	    padding: 25px 75px 40px;
-	    flex-direction: column;
-	    align-items: center;
-	    justify-content: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #f1f5f8;
+		padding: 20px;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 
-	    .header_form_popup_message{
-	    	margin: 20px 0px;
-	    }
+		h2 {
+			font-family: "Museo_Sans_Cyrl_700", sans-serif;
+			font-size: 24px;
+			line-height: 24px;
+			text-align: center;
+			margin-bottom: 16px;
+		}
 
-	    .header_form_popup_message_close{
-	    	cursor: pointer;
-	    }
+		.header_form_popup_message {
+			font-size: 16px;
+			line-height: 16px;
+			text-align: center;
+			color: #2c3044;
+			margin-bottom: 60px;
+
+			span {
+				display: block;
+				font-weight: 600;
+				font-size: 20px;
+				line-height: 20px;
+				margin: 20px 0;
+			}
+		}
+
+		.header_form_popup_message_close {
+			cursor: pointer;
+		}
 	}
 }
 
-.form_title{
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.form_title {
+	margin-bottom: 20px;
 
-	.form_title_main{
-		font-weight: 600;
-		font-size: 36px;
-		line-height: 44px;
-		margin-right: 9px;
-		text-align: center;	
+	@include for-mobile {
+		margin-bottom: 21px;
+	}
 
-		@include for-mobile{
-			font-size: 28px;
-			line-height: 32px;
+	.form_title_main {
+		font-family: "Museo_Sans_Cyrl_700", sans-serif;
+		font-size: 20px;
+		line-height: 20px;
+		text-align: center;
+		color: $clrDarkBlack;
+		margin-bottom: 3px;
+
+		@include for-mobile {
+			font-size: 18px;
+			line-height: 18px;
+			margin-bottom: 5px;
 		}
 	}
 
-	.form_title_desc{
-		font-weight: bold;
+	.form_title_desc {
+		font-family: "Museo_Sans_Cyrl_500", sans-serif;
 		font-size: 16px;
-		color: #FFB30F;
+		line-height: 16px;
+		text-align: center;
+		color: #4f4f4f;
 	}
 }
 
-.form_block{
-	display: flex;
-	margin-top: 30px;
-
-	.form_inputs{
+.form_block {
+	@include for-mobile {
+		// max-width: 100%;
+		// width: 400px;
+		width: 100%;
+	}
+	.form_inputs {
 		display: flex;
 		flex-wrap: wrap;
-		width: 780px;
+		justify-content: space-between;
 
-		.input_wrapper{
-			width: 130px;
-			margin-right: 20px;
+		@include for-mobile {
+			flex-direction: column;
+		}
 
-			&._big{
+		.input_wrapper {
+			flex: 0 0 calc(33.333% - 13px);
+			width: 100%;
+			height: 45px;
+			margin-bottom: 20px;
+
+			@include for-mobile {
+				flex: 0 0 auto;
+				height: 48px;
+				margin-bottom: 12px;
+			}
+
+			&._textarea {
+				flex: 0 1 100%;
+				height: 97px;
+				margin-bottom: 22px;
+
+				@include for-mobile {
+					flex: 0 0 auto;
+					height: 119px;
+					margin-bottom: 13px;
+				}
+			}
+
+			&._big {
 				width: 220px;
 			}
 
-			.input_label{
+			.input_label {
 				font-weight: 500;
 				font-size: 16px;
 				line-height: 26px;
 			}
 
-			input{
-				border: 1px solid #C4C4C4;
-				box-sizing: border-box;
-				border-radius: 2px;
+			input {
 				width: 100%;
-				height: 40px;
-				padding: 9px 16px 6px;
+				height: 100%;
+				font-family: Montserrat, sans-serif;
+				font-size: 15px;
+				line-height: 16px;
+				color: $clrDarkBlack;
+				background: $clrWhite;
+				border: 1px solid #dadada;
+				box-sizing: border-box;
+				border-radius: 15px;
+				padding: 10px 20px;
 
-				&._invalid{
+				&::placeholder {
+					color: #8a8a8a;
+				}
+
+				&:focus {
+					border: 1px solid #8a8a8a;
+				}
+
+				&._invalid {
 					border-color: #ea3e3e;
 				}
 			}
 
-			.input_desc{
-				font-weight: 500;
-				font-size: 12px;
-				line-height: 20px;
-				color: #666666;
+			textarea {
+				resize: none;
+				width: 100%;
+				height: 100%;
+				font-family: Montserrat, sans-serif;
+				font-size: 15px;
+				line-height: 16px;
+				color: $clrDarkBlack;
+				background: $clrWhite;
+				border: 1px solid #dadada;
+				box-sizing: border-box;
+				border-radius: 15px;
+				padding: 10px 20px;
+
+				&::placeholder {
+					color: #8a8a8a;
+				}
+
+				&:focus {
+					border: 1px solid #8a8a8a;
+				}
 			}
+
+			// .input_desc {
+			// 	font-weight: 500;
+			// 	font-size: 12px;
+			// 	line-height: 20px;
+			// 	color: #666666;
+			// }
 		}
 
-		.form_checkboxes{
-			width: 100%;
-			display: flex;
-			align-items: center;
-			margin-top: 20px;
+		// .form_checkboxes {
+		// 	width: 100%;
+		// 	display: flex;
+		// 	align-items: center;
+		// 	margin-top: 20px;
 
-			.checkbox_title{
-				font-weight: bold;
-				font-size: 16px;
-				line-height: 26px;
-				margin-right: 15px;
-			}
+		// 	.checkbox_title {
+		// 		font-weight: bold;
+		// 		font-size: 16px;
+		// 		line-height: 26px;
+		// 		margin-right: 15px;
+		// 	}
 
-			.checkbox_wrapper{
-				display: flex;
-			}
-		}
+		// 	.checkbox_wrapper {
+		// 		display: flex;
+		// 	}
+		// }
 	}
 
-	.form_submit{
+	.form_submit {
 		width: calc(100% - 780px);
 
-		button{
+		button {
 			height: 50px;
 			margin-top: 21px;
 		}
 
-		.form_policy{
+		.form_policy {
 			margin-top: 10px;
 
-			p{
+			p {
 				font-weight: 500;
 				font-size: 12px;
 				line-height: 15px;
 
-				&:before{
+				&:before {
 					top: 0px;
 				}
 
-				&:after{
+				&:after {
 					top: 3px;
 				}
 			}
 
-			a{
+			a {
 				//text-decoration: underline;
-				color: #5BA641;
+				color: #5ba641;
 			}
 		}
 	}

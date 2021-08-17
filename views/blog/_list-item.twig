@@ -4,17 +4,21 @@
 
       <img class="blog_item_img" src="{{ model.getFileData('image').src }}" alt="blog article image">
 
-      <div class="blog_item_text_wrapper">
+      {# <div class="blog_item_text_wrapper"> #}
 
         <div class="blog_item_title">
-          {{ model.name }}
+          <span>{{ model.name }}</span>
         </div>
 
         <div class="blog_item_text">
           {{ model.short_intro }}
         </div>
 
-      </div>
+		  <div class="blog_item_date">
+          {{ model.rusDate }}
+        </div>
+
+      {# </div> #}
 
     </a>
     

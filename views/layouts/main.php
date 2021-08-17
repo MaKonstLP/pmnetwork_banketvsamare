@@ -4,8 +4,8 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use frontend\modules\gorko_ny\assets\AppAsset;
-use frontend\modules\gorko_ny\models\ElasticItems;
+use frontend\modules\banketvsamare\assets\AppAsset;
+use frontend\modules\banketvsamare\models\ElasticItems;
 use common\models\Subdomen;
 
 AppAsset::register($this);
@@ -13,224 +13,192 @@ AppAsset::register($this);
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
+
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="icon" type="image/png" href="/img/ny_ball.png">
-    <title><?php echo $this->title ?></title>
-    <?php $this->head() ?>
-    <?php if (!empty($this->params['desc'])) echo "<meta name='description' content='".$this->params['desc']."'>";?>
-    <?php if (!empty($this->params['kw'])) echo "<meta name='keywords' content='".$this->params['kw']."'>";?>
-    <?php if (isset($this->params['canonical']) and !empty($this->params['canonical'])) echo "<link rel='canonical' href='".$this->params['canonical']."'>";?>
-    <?php if (isset($this->params['robots']) && $this->params['robots'] === true) echo "<meta name='robots' content='noindex, nofollow'>";?>
-    <?= Html::csrfMetaTags() ?>
+	<meta charset="<?= Yii::$app->charset ?>">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="icon" type="image/png" href="/img/logo_icon.svg">
+	<title><?php echo $this->title ?></title>
+	<?php $this->head() ?>
+	<?php if (!empty($this->params['desc'])) echo "<meta name='description' content='" . $this->params['desc'] . "'>"; ?>
+	<?php if (!empty($this->params['kw'])) echo "<meta name='keywords' content='" . $this->params['kw'] . "'>"; ?>
+	<?php if (isset($this->params['canonical']) and !empty($this->params['canonical'])) echo "<link rel='canonical' href='" . $this->params['canonical'] . "'>"; ?>
+	<?php if (isset($this->params['robots']) && $this->params['robots'] === true) echo "<meta name='robots' content='noindex, nofollow'>"; ?>
+	<?= Html::csrfMetaTags() ?>
+
+	<?php if (isset(Yii::$app->params['item'])) : ?>
+		<?php $item = Yii::$app->params['item']; ?>
+		<script type="application/ld+json">
+			{
+				"@context": "http://schema.org",
+				"@type": "Restaurant",
+				"image": "<?= $item->restaurant_cover_url ?>",
+				"@id": "<?= $item->restaurant_id ?>",
+				"name": "<?= $item->restaurant_name ?>",
+				"address": {
+					"@type": "PostalAddress",
+					"streetAddress": "<?= $item->restaurant_address ?>"
+				},
+				"price": "<?= $item->restaurant_price ?>",
+				"servesCuisine": ["<?= $item->restaurant_cuisine ?>"],
+				"geo": {
+					"@type": "GeoCoordinates",
+					"latitude": <?= $item->restaurant_latitude ?>,
+					"longitude": <?= $item->restaurant_longitude ?>
+				},
+				"url": "http://<?php $url = $_SERVER['HTTP_HOST'] . '/' . explode('/',$_SERVER['REQUEST_URI'])[1]; echo $url; ?>",
+				"telephone": "<?= $item->restaurant_phone ?>",
+			}
+		</script>
+	<?php endif; ?>
 
 </head>
+
 <body>
-<!-- Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager (noscript) 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PTTPDSK"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<?php $this->beginBody() ?>
+ End Google Tag Manager (noscript) -->
+	<?php $this->beginBody() ?>
 
-    <div class="main_wrap">
-        
-        <header data-city-id="<?=Yii::$app->params['subdomen_id']?>">
-            <div class="header_wrap">
+	<div class="main_wrap">
 
-                <div class="header_menu">
+		<header class="<?= isset(Yii::$app->params['is_index']) ? '_index' : '' ?><?= isset(Yii::$app->params['is_item']) ? '_item' : '' ?>" data-city-id="<?= Yii::$app->params['subdomen_id'] ?>">
+			<div class="header_wrap">
 
-                    <a href="/" class="header_logo">
+				<div class="header_top_container">
 
-                        <div class="header_logo_img"></div>
-                        <div class="header_logo_text">
-                            <p>
-                                <span>Новогодний корпоратив</span><br>
-                                <span>корпоративы твоего города <?php echo date('Y') + 1 ?></span>
-                            </p>
-                        </div>
-                        
-                    </a>
+					<div class="header_top">
 
-                    <div class="header_city_select _grey_link">
+						<a href="/" class="header_logo _logo"></a>
 
-                        <span><?=Yii::$app->params['subdomen_name']?></span>
+						<div class="header_phone _phone">
+							<a href="tel:<?= Yii::$app->params['subdomen_phone'] ?>"><?= Yii::$app->params['subdomen_phone_pretty'] ?></a>
+						</div>
 
-                    </div>
-                    
-                    <div class="city_select_search_wrapper _hide">
-                        
-                        <p class="back_to_header_menu">Назад в меню</p>
+						<div class="header_buttons">
+							<div class="header_button header_button_choose">
+								<span class="_link">Подобрать зал</span>
+							</div>
+							<div class="header_button header_button_favorite">
+								<a href="/blog/" class="_link">Подборки</a>
+							</div>
+						</div>
 
-                        <h4>Выберите город</h4>
+					</div>
 
-                        <?php /*<div class="input_search_wrapper">
+				</div>
 
-                            <input type="search" placeholder="Название города">
+				<div class="header_offer">
+					<div class="header__title">
+						<?php if(isset($this->params['h1'])):?>
+						<h1><?=$this->params['h1']?></h1>
+						<?php endif;?>
+					</div>
+					<p class="header__text">Бесплатная помощь банкетного менеджера</p>
+				</div>
+			</div>
 
-                        </div> */?>
 
-                        <div class="city_select_list">
+			<div class="header_form_popup _hide">
+				<div class="header_form_popup_content">
 
-                            <?php
-                                $subdomen_list = Subdomen::find()
-                                    ->where(['active' => 1])
-                                    ->orderBy(['name' => SORT_ASC])
-                                    ->all();
+					<div class="form_wrapper callback">
 
-                                function createCityNameLine($city){
-                                    if($city->alias){
-                                        $newLine = "<p><a href='https://$city->alias.korporativ-ng.ru'>$city->name</a></p>";
-                                    }
-                                    else{
-                                        $newLine = "<p><a href='https://korporativ-ng.ru'>$city->name</a></p>";
-                                    }
-                                    return $newLine;
-                                }
+						<div class="form_title">
+							<p class="form_title_main">Подобрать зал</p>
+						</div>
 
-                                function createLetterBlock($letter){
-                                    $newBlock = "<div class='city_select_letter_block' data-first-letter=$letter>";
-                                    return $newBlock;
-                                }
+						<form class="form_block" action="/ajax/form/" data-type="<?= isset(Yii::$app->params['is_index']) ? 'main_popup' : '' ?><?= isset(Yii::$app->params['is_item']) ? 'item_popup' : '' ?>">
 
-                                function createCityList($subdomen_list){
-                                    $citiesListResult = "";
-                                    $currentLetterBlock = "";
+							<div class="form_inputs">
 
-                                    foreach ($subdomen_list as $key => $subdomen){
-                                        $currentFirstLetter = substr($subdomen->name, 0, 2);
-                                        if ($currentFirstLetter !== $currentLetterBlock){
-                                            $currentLetterBlock = $currentFirstLetter;
-                                            $citiesListResult .= "</div>";
-                                            $citiesListResult .= createLetterBlock($currentLetterBlock);
-                                            $citiesListResult .= createCityNameLine($subdomen);
-                                        } else {
-                                            $citiesListResult .= createCityNameLine($subdomen);
-                                        }
-                                    }
-                                        
-                                    $citiesListResult .= "</div>";
-                                    echo substr($citiesListResult, 6);
-                                }
+								<div class="input_wrapper">
+									<input type="text" name="name" placeholder="Ваше имя" data-required />
+								</div>
+								<div class="input_wrapper">
+									<input type="text" name="phone" placeholder="+7 (999) 999 - 99 - 99" data-required autocomplete="off" />
+								</div>
+								<div class="input_wrapper">
+									<input type="text" name="amount" placeholder="Количество человек" data-required autocomplete="off" />
+								</div>
+								<div class="input_wrapper _textarea">
+									<textarea name="question" placeholder="Напишите ваши пожелания"></textarea>
+								</div>
 
-                                createCityList($subdomen_list);
-                            ?>
+							</div>
 
-                        </div>
+							<div class="form_submit_callback">
+								<div class="form_policy checkbox_item _active" data-action="form_checkbox" data-form-privacy>
+									<input type="checkbox" name="policy" class="personalData" checked="" data-required>
+									<p class="checkbox_pseudo">Согласен с <a class="_link" href="/politika-konfidentsialnosti/" target="_blank">политикой конфиденциальности</a></p>
+								</div>
+								<button class="form_submit_button _button" type="submit">Отправить</button>
+							</div>
 
-                    </div>
+						</form>
+						<div class="form_success">
+							<div class="header_form_popup_message_sent _hide" data-success>
 
-                    <div class="header_menu_wrapper">
+								<h2>Мы получили вашу заявку!</h2>
+								<p class="header_form_popup_message">В ближайшее время наш сотрудник свяжется с вами по телефону <span data-success-phone></span> для уточнения деталей.</p>
+								<!-- <p class="header_form_popup_message_close _link" data-success-close>Понятно, закрыть</p> -->
+								<div class="close_button"></div>
 
-                        <div class="header_city_select _grey_link">
+							</div>
+						</div>
+					</div>
 
-                            <span><?=Yii::$app->params['subdomen_name']?></span>
+				</div>
+			</div>
+		</header>
 
-                        </div>
+		<div class="content_wrap">
+			<?= $content ?>
+		</div>
 
-                        <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'banketnye-zaly')echo '_active';?>" href="/ploshhadki/banketnye-zaly/">Банкетные залы</a>
-                        <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'restorany')echo '_active';?>" href="/ploshhadki/restorany/">Рестораны</a>
-                        <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'kafe')echo '_active';?>" href="/ploshhadki/kafe/">Кафе</a>
-                        <a class="header_menu_item _no_wide_screen <?if(!empty($this->params['menu']) and $this->params['menu'] == 'kluby')echo '_active';?>" href="/ploshhadki/kluby/">Клубы</a>
-                        <a class="header_menu_item _no_wide_screen <?if(!empty($this->params['menu']) and $this->params['menu'] == 'bary')echo '_active';?>" href="/ploshhadki/bary/">Бары</a>
-                        <a class="header_menu_item _no_wide_screen <?if(!empty($this->params['menu']) and $this->params['menu'] == 'v-gorode')echo '_active';?>" href="/ploshhadki/v-gorode/">В городе</a>
-                        <a class="header_menu_item _no_wide_screen <?if(!empty($this->params['menu']) and $this->params['menu'] == 'na-prirode')echo '_active';?>" href="/ploshhadki/na-prirode/">На природе</a>
-                        <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'contacts')echo '_active';?>" href="/contacts/">Контакты</a>
-                        <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'blog')echo '_active';?>" href="https://korporativ-ng.ru/blog/" target="blank">Блог</a>
-                    </div>
+		<footer>
+			<div class="footer_container">
+				<div class="footer_wrap">
+					<div class="footer_row">
 
-                    <div class="header_phone">
-                        <a href="tel:<?= Yii::$app->params['subdomen_phone'] ?>"><?= Yii::$app->params['subdomen_phone_pretty'] ?></a>
-                        <div class="header_phone_button">
-                            <div class="header_phone_button_img"></div>
-                            <p class="_grey_link">Подберите мне зал</p>
-                        </div>
-                    </div>
+						<a href="/" class="footer_logo _logo"></a>
+						<div class="footer_info">
+							<p class="footer_copy">Банкет в Самаре © 2021</p>
+							<a href="/politika-konfidentsialnosti/" class="footer_pc _link">Политика конфиденциальности</a>
+						</div>
 
-                    <div class="header_burger">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+						<div class="footer_phone _phone">
+							<a href="tel:<?= Yii::$app->params['subdomen_phone'] ?>"><?= Yii::$app->params['subdomen_phone_pretty'] ?></a>
+						</div>
 
-                </div>
+					</div>
+				</div>
+			</div>
+		</footer>
 
-                <?php
-                    // $minPrice = ElasticItems::find()->limit(0)->query(
-                    //     ['bool' => ['must' => ['match' => ['restaurant_city_id' => Yii::$app->params['subdomen_id']]]]]
-                    // )
-                    //     ->addAggregate('min_price', [
-                    //         'min' => [
-                    //             'field' => 'restaurant_price',
-                    //         ]
-                    //     ])->search()['aggregations']['min_price']['value'];
-                    
-                ?>
+	</div>
 
-                <div class="header_form_popup _hide">
-                    <div class="header_form_popup_content">
-                    
-                        <?= $this->render('../components/generic/form_callback.twig', ['type' => 'header', 'minPrice' => Yii::$app->params['min_restaurant_price'], 'budgetLabel' => 'Бюджет на гостя']) ?>
-                        <div class="close_button"></div>
+	<?php $this->endBody() ?>
+	<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&amp;display=swap&amp;subset=cyrillic" rel="stylesheet"> -->
 
-                        <div class="header_form_popup_message_sent _hide">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;900&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
 
-                            <h2>Заявка отправлена</h2>
-                            <p class="header_form_popup_message">Константин, спасибо за проявленный интерес. Наши менеджеры свяжутся с вами<br>в течение дня и помогут подобрать зал для корпоратива.</p>
-                            <p class="header_form_popup_message_close _link">Понятно, закрыть</p>
-                            <div class="close_button"></div>
+	<!-- <noscript><div><img src="https://mc.yandex.ru/watch/84074572" style="; left:-9999px;" alt="" /></div></noscript>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-205074779-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </header>
-
-        <div class="content_wrap">
-            <?= $content ?>
-        </div>
-
-        <footer>
-            <div class="footer_container">
-                <div class="footer_wrap">
-                    <div class="footer_row">
-                        <div class="footer_block _left">
-                            <a href="/" class="footer_logo">
-                                <div class="footer_logo_img"></div>
-                                <div class="footer_logo_text">
-                                    <p>
-                                        <span>Новогодний корпоратив</span><br>
-                                        <span>корпоративы твоего города <?php echo date('Y') + 1; ?></span>
-                                    </p>
-                                </div>
-                            </a>
-                            <div class="footer_info">
-                                <p class="footer_copy">© <?php echo date("Y");?> Новогодний корпоратив</p>
-                                <a href="/privacy/" class="footer_pc _link">Политика конфиденциальности</a>
-                            </div>                        
-                        </div>
-                        <div class="footer_block _right">
-                            <div class="footer_phone">
-                                <a href="tel:<?= Yii::$app->params['subdomen_phone'] ?>"><?= Yii::$app->params['subdomen_phone_pretty'] ?></a>
-                            </div>
-                            <div class="footer_phone_button">
-                            <div class="footer_phone_button_img"></div>
-                                <p class="_link">Подберите мне зал</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-    </div> 
-
-<?php $this->endBody() ?>
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&amp;display=swap&amp;subset=cyrillic" rel="stylesheet">
+		gtag('config', 'UA-205074779-1');
+		gtag('config', 'G-HEPKG2TRK0');
+	</script> -->
 </body>
+
 </html>
 <?php $this->endPage() ?>

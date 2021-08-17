@@ -1,10 +1,10 @@
 <?php
-namespace app\modules\gorko_ny\controllers;
+namespace app\modules\banketvsamare\controllers;
 
 use common\models\blog\BlogPost;
 use common\models\blog\BlogTag;
 use common\models\Seo;
-use frontend\modules\gorko_ny\components\Breadcrumbs;
+use frontend\modules\banketvsamare\components\Breadcrumbs;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
@@ -17,14 +17,11 @@ class BlogController extends Controller
 
   	public function actionIndex(){
   		$this->view->params['menu'] = 'blog';
-  		if(Yii::$app->params['subdomen_alias'] != ''){
-  			throw new \yii\web\NotFoundHttpException();
-  		}
 	    $query = BlogPost::findWithMedia()->with('blogPostTags')->where(['published' => true]);
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
 			'pagination' => [
-				'pageSize' => 100,
+				'pageSize' => 3,
 				'forcePageParam' => false,
 				'totalCount' => $query->count()
 			],
@@ -59,9 +56,6 @@ class BlogController extends Controller
   	public function actionPost($alias)
 	{
 		$this->view->params['menu'] = 'blog';
-		if(Yii::$app->params['subdomen_alias'] != ''){
-  			throw new \yii\web\NotFoundHttpException();
-  		}
 		$post = BlogPost::findWithMedia()->with('blogPostTags')->where(['published' => true, 'alias' => $alias])->one();
 		if(empty($post)) {
 			throw new \yii\web\NotFoundHttpException();
@@ -70,14 +64,12 @@ class BlogController extends Controller
 		$seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs('post', ['link' => $alias, 'name' => $post->name]);
 
 		$this->setSeo($seo);
-		return $this->render('post.twig', compact('post','seo'));
+		$similarPosts = BlogPost::findWithMedia()->with('blogPostTags')->where(['published' => true])->andWhere(['!=', 'id', $post->id])->orderBy(['published_at' => SORT_DESC])->limit(2)->all();
+		return $this->render('post.twig', compact('post','seo', 'similarPosts'));
 	}
 
 	public function actionPreview($id)
 	{
-		if(Yii::$app->params['subdomen_alias'] != ''){
-  			throw new \yii\web\NotFoundHttpException();
-  		}
 		$post = BlogPost::findWithMedia()->with('blogPostTags')->where(['published' => true, 'id' => $id])->one();
 		if(empty($post)) {
 			throw new NotFoundHttpException();

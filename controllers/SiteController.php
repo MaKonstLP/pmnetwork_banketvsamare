@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\gorko_ny\controllers;
+namespace app\modules\banketvsamare\controllers;
 
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -11,10 +11,11 @@ use common\models\SubdomenPages;
 use common\models\Filter;
 use common\models\Slices;
 use common\models\elastic\ItemsFilterElastic;
-use frontend\modules\gorko_ny\models\ElasticItems;
+use frontend\modules\banketvsamare\models\ElasticItems;
 use common\models\Seo;
 use common\models\RestaurantsModule;
 use common\models\siteobject\SiteObjectSeo;
+use common\models\elastic\ApiLoaderLogElastic;
 //use common\models\elastic\LeadLogElastic;
 
 class SiteController extends Controller
@@ -46,8 +47,11 @@ class SiteController extends Controller
           if(!$seo->save())
             print_r($seo);
         }
-        Pages::createSiteObjects();*/
+        Pages::createSiteObjects();
+        $logtest = new ApiLoaderLogElastic();
+        $logtest::createIndex();*/
 
+        
 
         $filter_model = Filter::find()->with('items')->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->all();
         $slices_model = Slices::find()->all();
@@ -97,13 +101,8 @@ class SiteController extends Controller
             $subdomen_alias = '';
         }
         echo 'User-agent: *
-Disallow: /*rest_type=
-Disallow: /*chelovek=
-Disallow: /*price=
-Disallow: /*firework=
-Disallow: /*svoy-alko=
-Disallow: /blog/preview-post/
-Sitemap: https://'.$subdomen_alias.'korporativ-ng.ru/sitemap/';
+Disallow: /
+Sitemap: https://banketvsamare.ru/sitemap/';
         exit;
     }
 

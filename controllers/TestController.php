@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\gorko_ny\controllers;
+namespace app\modules\banketvsamare\controllers;
 
 use Yii;
 use yii\web\Controller;
@@ -15,7 +15,7 @@ use common\models\siteobject\SiteObject;
 use common\models\siteobject\SiteObjectSeo;
 use common\models\elastic\ItemsFilterElastic;
 use common\components\AsyncRenewRestaurants;
-use frontend\modules\gorko_ny\models\ElasticItems;
+use frontend\modules\banketvsamare\models\ElasticItems;
 
 class TestController extends Controller
 {

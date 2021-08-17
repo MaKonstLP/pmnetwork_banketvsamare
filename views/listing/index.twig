@@ -1,10 +1,10 @@
 <div data-page-type="listing">
 
-	<div class="content_block" data-listing-title>
+	{# <div class="content_block" data-listing-title>
 
 		{{ this.render('//components/generic/title.twig', {'count':count, 'currentType':currentType, 'seo':seo}) | raw }}
 		
-	</div>
+	</div> #}
 
 	{{ this.render('//components/generic/slice.twig', {menu:menu, main_flag:main_flag}) | raw }}
 
@@ -21,47 +21,96 @@
 		</div>
 	</div> #}
 
+	{# <div class="content_block pagination"> 
+		<div data-pagination-wrapper>
+			{{pagination | raw }}
+		</div>
+	</div> #}
+
+	<div class="items_list_listing" data-listing-wrapper>
+	<div class="items_list_total" data-listing-total>{{Declension.get(count, 'Найден')}} {{count}} {{Declension.get(count, 'площад')}}</div>
+		<div class="items_list" data-listing-list>
+			{{ this.render('//components/generic/listing.twig', {'items':items, 'img_alt':seo.img_alt, 'filterMinPrice': filterMinPrice}) | raw }}
+
+		</div>
+	</div>
+
 	<div class="content_block pagination"> 
 		<div data-pagination-wrapper>
 			{{pagination | raw }}
 		</div>
 	</div>
 
-	<div class="items_list_listing" data-listing-wrapper>
-		<div class="items_list" data-listing-list>
-
-			{{ this.render('//components/generic/listing.twig', {'items':items, 'img_alt':seo.img_alt, 'filterMinPrice': filterMinPrice}) | raw }}
-
-		</div>
-	</div>
-
-	<div class="content_block"> 
-		<div data-pagination-wrapper>
-			{{pagination | raw }}
-		</div>
-	</div>
-
-	<div class="map_title">
+	{# <div class="map_title">
 		<h2>Все площадки на карте</h2>
-	</div>
+	</div> #}
 
-	<div class="content_block map listing" data-map-api-subid="{{ subid }}"></div>
+	{# <div class="content_block map listing" data-map-api-subid="{{ subid }}"></div> #}
 
 
-	<div class="content_block" data-listing-text-bottom>
+	{# <div class="content_block" data-listing-text-bottom>
 		<div class="seo_text" data-seo-text>
 			{{seo.text_bottom | raw }}
 			<div class="seo_text_control" data-seo-control>
 				<p class="_link">Показать полностью</p>
 			</div>
 		</div>
-	</div>
+	</div> #}
+
+
+	{# Seo text static START #}
+	{% if seo.text_top != '' %}
+		<div class="content_block" data-listing-text-bottom>
+			<div class="seo_text" data-seo-text>
+				{{seo.text_top | raw }}
+				{# {{seo.text_1 | raw }} #}
+				<div class="seo_text_control" data-seo-control>
+					<p class="_link">Развернуть</p>
+				</div>
+			</div>
+			{% if seo.media["advantages"]|first %}
+			<div class="seo_img" data-seo-img>
+				<img src="{{seo.media["advantages"]|first.src}}" alt="{{seo.media["advantages"]|first.alt}}">
+			</div>
+			{% endif %}
+			
+		</div>
+	{% endif %}
+
+	{# Seo text static END #}
 
 	<div class="content_block form_callback_wrapper"> 
 		<div >
 			{{ this.render('//components/generic/form_callback.twig') | raw }}
+
+			
 		</div>
 	</div>
+
+
+
+
+
+	<div class="content_block content_block_map _popup">
+		{# {% for item in items %} #}
+			<div class="map_popup_container">
+				<div class="map_popup_info">
+					<div class="map_popup_title">{{ items[0].restaurant_name }}</div>
+					<div class="map_popup_address"><span>{{ items[0].restaurant_address }}</span></div>
+					<a href="tel:{{ items[0].restaurant_phone|replace({' ':'', '-':''}) }}" class="map_popup_phone"><span>{{ items[0].restaurant_phone }}</span></a>
+					<div class="map_popup_close"></div>
+				</div>
+
+				<div class="map_popup">
+					<div id="map_popup" data-mapDotX="{{items[0].restaurant_latitude}}" data-mapDotY="{{items[0].restaurant_longitude}}" data-name="{{items[0].restaurant_name}}" data-address="{{items[0].restaurant_address}}" data-balloon="" data-hint=""></div>
+				</div>
+			</div>
+		{# {% endfor %} #}
+		
+	</div>
+
+
+	
 
 	<div class="content_loading"></div>
 </div>

@@ -6,6 +6,14 @@
  	@media (max-width: 767px) { @content; }
 }
 
+@mixin for-laptop {
+	@media (max-width: 1024px) { @content; }
+}
+
+@mixin for-lowlap {
+ 	@media (max-width: 1200px) { @content; }
+}
+
 @mixin for-notdesc {
  	@media (max-width: 1440px) { @content; }
 }
