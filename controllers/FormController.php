@@ -33,7 +33,13 @@ class FormController extends Controller
         if(isset($_POST['amount']))
             $payload['guests'] = intval($_POST['amount']);
         
-        $payload['city_id'] = 4917;
+        if(isset($_POST['cityID'])){
+            $payload['guests'] = intval($_POST['cityID']);
+        }
+        else{
+            return 1;
+        }
+
         
         $payload['details'] = '';
         if(isset($_POST['question']))
@@ -41,8 +47,6 @@ class FormController extends Controller
         if(isset($_POST['url']))
             $payload['details'] .= 'Заявка отправлена с '.$_POST['url'];
 
-        if(!isset($payload['city_id']))
-            return false;
 
         $resp = GorkoLeadApi::send_lead('v.gorko.ru', 'banketvsamare', $payload);
 

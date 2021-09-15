@@ -29,7 +29,7 @@ use frontend\modules\pmnbd\models\MediaEnum;
 
 class ListingController extends Controller
 {
-	protected $per_page = 30;
+	protected $per_page = 10;
 
 	public $filter_model,
 		$slices_model,
@@ -53,7 +53,8 @@ class ListingController extends Controller
 
 	public function actionSlice($slice)
 	{
-		$pages = Pages::find()->where(['id' => [87,88,89,90,91,92]])->with('seoObject')->all();
+
+		//$pages = Pages::find()->where(['id' => [87,88,89,90,91,92]])->with('seoObject')->all();
 		//$pages->seoObject->title = 'test1234';
 		//echo '<pre>';
 		//print_r($pages->seoObject);
@@ -88,9 +89,9 @@ class ListingController extends Controller
 			isset($_GET['page']) ? $params['page'] = $_GET['page'] : $params['page'];
 
 			$canonical = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . explode('?', $_SERVER['REQUEST_URI'], 2)[0];
-			if ($params['page'] > 1) {
-				$canonical .= $params['canonical'];
-			}
+			//if ($params['page'] > 1) {
+			//	$canonical .= $params['canonical'];
+			//}
 
 			return $this->actionListing(
 				$page 			=	$params['page'],
@@ -234,6 +235,9 @@ class ListingController extends Controller
 		$elastic_model = new ElasticItems;
 		$items = new ItemsFilterElastic($params_filter, $per_page, $page, false, 'restaurants', $elastic_model);
 
+		if(!count($items->items))
+			throw new \yii\web\NotFoundHttpException();
+
 		//echo "<pre>";
 		//print_r($items);
 		//exit;
@@ -247,7 +251,7 @@ class ListingController extends Controller
 			$seo['text_bottom'] = '';
 		}
 
-		$itemsAllPages = new ItemsFilterElastic($params_filter, 999, $page, false, 'restaurants', $elastic_model);
+		$itemsAllPages = new ItemsFilterElastic($params_filter, $this->per_page, $page, false, 'restaurants', $elastic_model);
 
 		$minPrice = 999999;
 		foreach ($itemsAllPages->items as $item) {

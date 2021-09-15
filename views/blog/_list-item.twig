@@ -1,25 +1,27 @@
-<div class="blog_item_wrapper">
+<div data-key>
+    <div class="blog_item_wrapper">
 
-    <a class="blog_item" href="{{ model.getUrl() }}">
+        <a class="blog_item" href="{{ post.getUrl() }}">
 
-      <img class="blog_item_img" src="{{ model.getFileData('image').src }}" alt="blog article image">
+          <img class="blog_item_img" src="{{ post.getFileData('image').src }}" alt="blog article image">
 
-      {# <div class="blog_item_text_wrapper"> #}
+          {# <div class="blog_item_text_wrapper"> #}
 
-        <div class="blog_item_title">
-          <span>{{ model.name }}</span>
-        </div>
+            <div class="blog_item_title">
+              <span>{{ post.name }}</span>
+            </div>
 
-        <div class="blog_item_text">
-          {{ model.short_intro }}
-        </div>
+            <div class="blog_item_text">
+              {{ post.short_intro }}
+            </div>
 
-		  <div class="blog_item_date">
-          {{ model.rusDate }}
-        </div>
+    		<div class="blog_item_date">
+              {{ post.rusDate }}
+            </div>
 
-      {# </div> #}
+          {# </div> #}
 
-    </a>
-    
-  </div>
+        </a>
+        
+    </div>
+</div>

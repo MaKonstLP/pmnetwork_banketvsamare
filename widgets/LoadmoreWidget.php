@@ -35,7 +35,7 @@ class LoadmoreWidget extends Widget
 
 	private function renderPageButton($page, $amount, $test)
 	{
-		return '<div class="button_loadmore" data-page-id="' . $page . '" data-listing-pagitem="' . $test . '">Показать ещё ' . $amount . '</div>';
+		return '<a href="?page='.$page.'" class="button_loadmore" data-page-id="' . $page . '" data-listing-pagitem="' . $test . '">Показать ещё ' . $amount . '</a>';
 	}
 
 }

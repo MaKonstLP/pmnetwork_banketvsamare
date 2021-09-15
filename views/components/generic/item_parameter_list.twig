@@ -18,7 +18,7 @@
 
 	<div class="object_parameters_item">
 			<p class="object_parameters_type"><span>Вместимость </span></p>
-			<span>{{ room.capacity }}</span>
+			<a href="{{Slicer.banketvsamare(room.capacity)}}">{{ room.capacity }}</a>
 	</div>
 
 	{% if room.capacity_reception != '' %}
@@ -42,60 +42,4 @@
 		</div>
 	{% endif %}
 
-
-
-
-
-	{# <p class="object_parameters_item">{{item.restaurant_cuisine}} кухня</p>
-	{% if item.restaurant_parking %}
-		<p class="object_parameters_item">Парковочных мест: {{item.restaurant_parking}}</p>
-	{% endif %} #}
 </div>
-
-{# <div class="object_parameters_list">
-	<p class="object_parameters_title">Залы</p>
-	<p class="object_parameters_item">{{item.rooms|length}} зал{{Declension.end_rooms(item.rooms|length)}}: 
-		{% for room in item.rooms %}
-				{% if loop.first %}
-					{{room.capacity}}
-				{% else %}
-					, {{room.capacity}}
-				{% endif %}
-		{% endfor %}
-		человек</p>
-</div>
-
-{% if item.restaurant_alcohol in [1,2] or item.restaurant_firework %}
-<div class="object_parameters_list _marked">
-	<p class="object_parameters_title">Разрешены</p>
-	{% if item.restaurant_alcohol in [1,2] %}
-		<p class="object_parameters_item">Свой алкоголь</p>
-	{% endif %}
-	{% if item.restaurant_firework %}
-		<p class="object_parameters_item">Запуск фейерверка</p>
-	{% endif %}
-</div>
-{% endif %} #}
-
-{# {% set services = item.restaurant_extra_services|split(',') %}
-{% if item.restaurant_extra_services != '' %}
-<div class="object_parameters_list _marked _big_list">
-	<p class="object_parameters_title">За дополнительную плату</p>
-	<div class="object_parameters_items">       
-		{% for service in services %}
-				<p class="object_parameters_item">{{service}}</p>
-		{% endfor %}
-	</div>
-</div>
-{% endif %}
-
-<div class="object_parameters_list">
-	<p class="object_parameters_title">Оплата</p>
-	<p class="object_parameters_item">Наличными, банковской картой или безналичным способом</p>
-</div> #}
-
-{# <div class="test">
-	<p class="object_parameters_title">
-	
-	</p>
-</div> #}

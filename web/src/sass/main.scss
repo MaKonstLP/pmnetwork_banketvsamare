@@ -1,35 +1,7 @@
 @import "_mixins";
 @import "_colors";
 @import "components/*";
-@import "../../node_modules/@fullcalendar/core/main.css";
-@import "../../node_modules/@fullcalendar/daygrid/main.css";
 @import "../../node_modules/lightbox2/dist/css/lightbox";
-
-/*----- Fonts  START-----*/
-@font-face {
-	font-family: "Museo_Sans_Cyrl_700";
-	src: url("/fonts/MuseoSansCyrl-700.eot");
-	src: url("/fonts/MuseoSansCyrl-700.eot?#iefix") format("embedded-opentype"),
-		url("/fonts/MuseoSansCyrl-700.woff2") format("woff2"), url("/fonts/MuseoSansCyrl-700.woff") format("woff"),
-		url("/fonts/MuseoSansCyrl-700.ttf") format("truetype");
-}
-
-@font-face {
-	font-family: "Museo_Sans_Cyrl_500";
-	src: url("/fonts/MuseoSansCyrl-500.eot");
-	src: url("/fonts/MuseoSansCyrl-500.eot?#iefix") format("embedded-opentype"),
-		url("/fonts/MuseoSansCyrl-500.woff2") format("woff2"), url("/fonts/MuseoSansCyrl-500.woff") format("woff"),
-		url("/fonts/MuseoSansCyrl-500.ttf") format("truetype");
-}
-
-@font-face {
-	font-family: "ProximaNova";
-	src: url("/fonts/ProximaNova-Regular.eot");
-	src: url("/fonts/ProximaNova-Regular.eot?#iefix") format("embedded-opentype"),
-		url("/fonts/ProximaNova-Regular.woff2") format("woff2"), url("/fonts/ProximaNova-Regular.woff") format("woff"),
-		url("/fonts/ProximaNova-Regular.ttf") format("truetype");
-}
-/*----- Fonts  END-----*/
 
 body {
 	font-family: "Montserrat", sans-serif;
@@ -758,6 +730,15 @@ h3 {
 	background-repeat: repeat-x;
 	background-position: 0 95%;
 	background-size: 100% 1px;
+}
+
+._link_ex {
+	color: $clrBlue;
+
+	&:hover {
+		color: #1f85be;
+		border-color: rgba(31, 133, 190, 0.5);
+	}
 }
 
 ._pseudolink {

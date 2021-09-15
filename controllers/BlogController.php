@@ -11,46 +11,32 @@ use yii\web\NotFoundHttpException;
 use yii\widgets\LinkPager;
 use yii\web\Controller;
 use Yii;
+use frontend\modules\banketvsamare\widgets\PaginationWidget;
 
 class BlogController extends Controller
 {
+	protected $per_page = 3;
 
   	public function actionIndex(){
+  		$current_page = $_GET['page'] ?? 1;
   		$this->view->params['menu'] = 'blog';
-	    $query = BlogPost::findWithMedia()->with('blogPostTags')->where(['published' => true]);
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
-			'pagination' => [
-				'pageSize' => 3,
-				'forcePageParam' => false,
-				'totalCount' => $query->count()
-			],
-		]);
+	    $posts = BlogPost::findWithMedia()
+	    	->with('blogPostTags')
+	    	->where(['published' => true])
+	    	->limit($this->per_page)
+	    	->offset(($current_page - 1) * $this->per_page)
+	    	->all();
 
-		$seo = (new Seo('blog', $dataProvider->getPagination()->page + 1))->seo;
+		$seo = (new Seo('blog', $current_page))->seo;
 		$seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs('blog');
 		$this->setSeo($seo);
 
+		$pagination = PaginationWidget::widget([
+			'total' => ceil(BlogPost::find()->where(['published' => true])->count() / $this->per_page),
+			'current' => $current_page,
+		]);
 
-
-		$topPosts = (clone $query)->where(['featured' => true])->limit(5)->all();
-
-		$listConfig = [
-			'dataProvider' => $dataProvider,
-			'itemView' => '_list-item.twig',
-			'layout' => "{items}\n<div class='pagination_wrapper items_pagination' data-pagination-wrapper>{pager}</div>",
-			'pager' => [
-				'class' => LinkPager::class,
-				'disableCurrentPageButton' => true,
-				'nextPageLabel' => 'Следующая →',
-				'prevPageLabel' => '← Предыдущая',
-				'maxButtonCount' => 4,
-				'activePageCssClass' => '_active',
-				'pageCssClass' => 'items_pagination_item',
-			],
-
-		];
-		return $this->render('index.twig', compact('listConfig', 'topPosts', 'seo'));
+		return $this->render('index.twig', compact('posts', 'seo', 'pagination'));
   	}
 
   	public function actionPost($alias)

@@ -38,7 +38,8 @@ export default class Listing {
 		// });
 
 		//КЛИК ПО КНОПКЕ "ПОКАЗАТЬ ЕЩЕ"
-		$('body').on('click', '[data-pagination-wrapper] [data-listing-pagitem]', function () {
+		$('body').on('click', '[data-pagination-wrapper] [data-listing-pagitem]', function (e) {
+			e.preventDefault();
 			self.loadMoreListing($(this).data('page-id'));
 			setTimeout(catalogSliderInit, 500);
 		});
@@ -67,7 +68,10 @@ export default class Listing {
 
 		//mapPopup START
 		$('[data-listing-list]').on('click', '[data-title-address]', function (e) {
-
+			let attrCommission = $(this).attr('data-commission');
+			if (typeof attrCommission !== typeof undefined && attrCommission !== false) {
+				ym(84074572, 'reachGoal', 'show_lead');
+			}
 			let restaurantCoordinates = [$(this).closest('.item').attr("data-restaurant-mapDotX"), $(this).closest('.item').attr("data-restaurant-mapDotY")];
 			let restaurantMyBalloonHeader = $(this).closest('.item').attr("data-restaurant-name");
 			let restaurantMyBalloonBody = $(this).closest('.item').attr("data-restaurant-address");
@@ -105,7 +109,7 @@ export default class Listing {
 				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Filter'});
 
 				$('[data-listing-list]').html(response.listing);
-				$('[data-listing-total]').html(declOfNum(response.total, ['Найдена','Найдено','Найдено']) +' '+ response.total +' '+ declOfNum(response.total, ['площадка','площадки','площадок']));
+				$('[data-listing-total]').html(declOfNum(response.total, ['Найдена', 'Найдено', 'Найдено']) + ' ' + response.total + ' ' + declOfNum(response.total, ['площадка', 'площадки', 'площадок']));
 				// $('[data-listing-list]').append(response.listing);
 				// $('[data-listing-title]').html(response.title);
 				$('[data-listing-text-top]').html(response.text_top);
@@ -117,7 +121,7 @@ export default class Listing {
 				if (response.seo["media"]["advantages"] != 0) {
 					$('[data-seo-img]').html('<img src="' + response.seo["media"]["advantages"][0]["src"] + '" alt="' + response.seo["media"]["advantages"][0]["alt"] + '">');
 				}
-				
+
 
 				self.block.removeClass('_loading');
 				// $('html,body').animate({ scrollTop: $('.items_list').offset().top - 160 }, 400);

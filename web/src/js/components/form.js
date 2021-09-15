@@ -199,22 +199,11 @@ export default class Form {
 		//modal.show();
 		switch (formType) {
 			case 'main':
-				//ym(66603799,'reachGoal','feedback');
-				// dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Feedback'});
+				ym(84074572,'reachGoal','manager_order');
 				break;
 
-			case 'item':
-				//ym(66603799,'reachGoal','roomorder');
-				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Roomorder'});
-				break;
-			case 'header':
-				//ym(66603799,'reachGoal','quickorder');
-				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Quickorder'});
-				break;
-			case 'book':
-				//ym(66603799,'reachGoal','roominfo');
-				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Roominfo'});
-				$('.object_book_email._form').removeClass('_form').addClass('_success');
+			case 'popup':
+				ym(84074572,'reachGoal','find_room');
 				break;
 		}
 

@@ -2,16 +2,14 @@
 
 <div class="title">
 
-	<h1>{{seo.h1}}</h1>
+	<h1 data-blog-id="{{item.restaurant_gorko_id}}">{{seo.h1}}</h1>
 
 
 	<div class="title_type">
-		{% for type in item.restaurant_types %}
-			{{type.name}}<span>,</span> 
-		{% endfor %}
+		{{rest_type_row|raw}}
 	</div>
 
 	{#<div class="title_desc"><p>{{seo.desc}}</p></div>#}
-	<div class="title_address"><a class="_link" data-title-address>{{seo.address}}</a></div>
+	<div class="title_address"><a class="_link" data-title-address {% if item.restaurant_commission == 2 %}data-commission{% endif %}>{{seo.address}}</a></div>
 
 </div>

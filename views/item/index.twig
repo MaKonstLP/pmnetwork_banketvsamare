@@ -1,15 +1,15 @@
 <div class="item_page_wrapper" data-page-type="item">
 
-{{ microdata | raw }}
+{# {{ microdata | raw }} #}
 
 	<div class="content_block" data-listing-title>
 		<div class="content_block_wrap" >
 			<a href="/" class="content_block_logo"></a>
-			<a href="/" class="link_back"><span>Назад</span></a>
+			<a href="{{urlPreviousPage}}#{{item.id}}" class="link_back"><span>Назад</span></a>
 
-			{{ this.render('//components/generic/item_title.twig', {'seo':seo, 'item':item}) | raw }}
+			{{ this.render('//components/generic/item_title.twig', {seo, item, rest_type_row}) | raw }}
 
-			<a class="show_contacts _button_green" data-title-address><span>Показать контакты</span></a>
+			<a class="show_contacts _button_green" data-title-address {% if item.restaurant_commission == 2 %}data-commission{% endif %}><span>Показать контакты</span></a>
 			<a href="tel:{{ item.restaurant_phone|replace({' ':'', '-':''}) }}" class="button_call _button_green">
 				<span data-mobile-text="Позвонить в {{item.restaurant_name}}">Позвонить</span>
 			</a>
@@ -28,7 +28,7 @@
 
 								{% if room.images|length == '' %} 
 									<div class="swiper-slide">
-										<img src="{{room.cover_url}}" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+										<img src="/img/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
 									</div>
 								{% else %}
 									{% for image in room.images %}
@@ -63,7 +63,7 @@
 		{% endfor %}
 
 		<div class="restaurant_parameters">
-			<p class="restaurant_parameters_title">Особенности</p>
+			<h2 class="restaurant_parameters_title">Особенности</h2>
 			
 			<div class="restaurant_parameters_row">
 				<div class="restaurant_parameters_column">
@@ -113,7 +113,7 @@
 	</div>
 
 	<div class="content_block content_block_map">
-		<div class="map_title">Расположение</div>
+		<h2 class="map_title">Расположение</h2>
 		<div class="map">
 			<div id="map" data-mapDotX="{{item.restaurant_latitude}}" data-mapDotY="{{item.restaurant_longitude}}" data-name="{{item.restaurant_name}}" data-address="{{item.restaurant_address}}" data-balloon="" data-hint="">
 			</div>
@@ -142,6 +142,17 @@
 		{{ this.render('//components/generic/form_booking.twig', {'items':other_rooms, 'venue_id':item.restaurant_gorko_id, 'minPrice': item.restaurant_price}) | raw }}
 
 	</div> #}
+
+	{% if construct_slices.pages %}
+		<div class="content_block content_block_item_slices">
+			<h2 class="item_slices_title">Похожие места</h2>
+			<div class="item_slices">
+				{% for page in construct_slices.pages %}
+					<a class="_link_ex" href="/{{page.type}}/">{{page.seoObject.heading}}</a>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
 
 	<div class="content_block form_callback_wrapper"> 
 		<div >

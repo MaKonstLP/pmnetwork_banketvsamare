@@ -12,6 +12,7 @@ use common\models\RestaurantsExtra;
 use common\models\RestaurantsLocation;
 use common\models\ImagesModule;
 use common\components\AsyncRenewImages;
+use common\models\Filter;
 
 class ElasticItems extends \yii\elasticsearch\ActiveRecord
 {
@@ -55,11 +56,11 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
     }
 
     public static function index() {
-        return 'pmn_banketvsamare_restaurants';
+        return \Yii::$app->params['module_api_config']['banketvsamare']['elastic']['index'];
     }
     
     public static function type() {
-        return 'items';
+        return \Yii::$app->params['module_api_config']['banketvsamare']['elastic']['type'];
     }
 
     /**
@@ -258,6 +259,9 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
         foreach ($restaurants as $restaurant) {
             $res = self::addRecord($restaurant, $restaurants_types, $restaurants_spec, $restaurants_specials ,$restaurants_extra, $restaurants_location, $images_module, $params);
         }
+
+        self::checkFilters();
+
         echo 'Обновление индекса '. self::index().' '. self::type() .' завершено'."\n";
     }
 
@@ -412,6 +416,9 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
             $record->restaurant_slug = $row['slug'];
         } else {
             $record->restaurant_slug = self::getTransliterationForUrl($restaurant->name);
+            if($row = (new \yii\db\Query())->select('slug')->from('restaurant_slug')->where(['slug' => $record->restaurant_slug])->one()){
+                $record->restaurant_slug .= '-v-samare';
+            }
             \Yii::$app->db->createCommand()->insert('restaurant_slug', ['gorko_id' => $restaurant->gorko_id, 'slug' =>  $record->restaurant_slug])->execute();
         }
 
@@ -499,5 +506,38 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
         //print_r("\n");
 
         return 1;
+    }
+
+    public static function checkFilters(){
+        $filter_model = Filter::find()->with('items')->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->all();
+        foreach ($filter_model as $key => $filter) {
+            foreach ($filter->items as $key => $filter_item) {
+                if($filter_item->filter_id != 6)
+                    continue;
+                $api_arr = json_decode($filter_item->api_arr, true);
+                $total = self::find()->query([
+                    "bool" => [ 
+                        "must" => [
+                            "nested" => [
+                                "path" => "restaurant_types",
+                                "query" =>[
+                                    "bool" => [
+                                        "must" => [
+                                            "match" => ["restaurant_types.id" => $api_arr[0]['value']] 
+                                        ]
+                                    ]
+                                ]
+                            ]  
+                        ]
+                    ]
+                ])->limit(0)
+                ->search();
+                print_r($filter_item->text.' - '.$total['hits']['total'].'/n');
+                if($total['hits']['total'] == 0){
+                    $filter_item->active = 0;
+                    $filter_item->save();
+                }
+            }
+        }
     }
 }

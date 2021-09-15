@@ -20,19 +20,19 @@ window.$ = $;
 
 		if ($('[data-page-type="item"]').length > 0) {
 			var item = new Item($('[data-page-type="item"]'));
-		}
-
-		if ($('.map').length > 0) {
-			if ($('[data-page-type="item"]').length > 0) {
-				var yaMap = new YaMapSingleObject();
-			}
-		}
+		}		
 
 		if ($('[data-page-type="post"]').length > 0) {
 			var post = new Post($('[data-page-type="post"]'));
 		}
 
 		var main = new Main();
+
+		if ($('.map').length > 0) {
+			if ($('[data-page-type="item"]').length > 0) {
+				var yaMap = new YaMapSingleObject();
+			}
+		}
 		var form = [];
 
 		$('form').each(function () {

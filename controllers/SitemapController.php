@@ -19,7 +19,7 @@ class SitemapController extends Controller
 		Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
     	Yii::$app->response->headers->add('Content-Type', 'text/xml');
 
-		$host = $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['HTTP_HOST'];
+		$host = 'https://'. $_SERVER['HTTP_HOST'];
 
 		$slices = Slices::find('alias')->all(); //вернуть, когда останутся только актуальные срезы
 		// $slices = Slices::find('alias')->where(['<', 'id', 8])->all();

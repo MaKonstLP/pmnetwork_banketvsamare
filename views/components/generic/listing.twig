@@ -1,5 +1,5 @@
 {% for item in items %}
-	<div class="item" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" data-restaurant-phone="{{item.restaurant_phone}}" 
+	<div class="item" id="{{item.id}}" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" data-restaurant-phone="{{item.restaurant_phone}}" 
 	data-restaurant-mapDotX="{{item.restaurant_latitude}}" data-restaurant-mapDotY="{{item.restaurant_longitude}}">
 	
 		<div class="item_info_top">
@@ -14,10 +14,10 @@
 					{% endfor %}
 				</p>
 				{% if type != 'other' %}
-					<p class="item_address" data-title-address><span class="_link">{{item.restaurant_address}}</span></p>
+					<p class="item_address" data-title-address {% if item.restaurant_commission == 2 %}data-commission{% endif %}><span class="_link">{{item.restaurant_address}}</span></p>
 				{% endif %}
 			</div>
-			<div class="item_info_contacts _button_green" data-title-address>
+			<div class="item_info_contacts _button_green" data-title-address {% if item.restaurant_commission == 2 %}data-commission{% endif %}>
 				<span>Показать контакты</span>
 			</div>
 		</div>
@@ -26,23 +26,29 @@
 
 			<div class="swiper-container item_listing_slider item_listing_slider_rooms">
 				<div class="item_slider_wrapper swiper-wrapper">
-
+					
 					{% for room in item.rooms %}
-						{% for image in room.images %}
-
+						{% if room.images|length == 0 %}
 							<a href="/banket-{{item.restaurant_slug}}/" class="item_slide swiper-slide">
 								<div class="item_slide_img item_slide_room_img">
-									<picture>
-										<source srcset="{{image.subpath}}=w356-h248-n-l95-rw" type="image/webp">
-										<source srcset="{{image.subpath}}=w356-h248-n-l95" type="image/jpeg"> 
-										<img alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}" loading="lazy" src="{{image.subpath}}=w356-h248-n-l95">
-									</picture>
+									<img src="/img/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
 								</div>
 							</a>
-
-						{% endfor %}
+						{% else %}
+							{% for image in room.images %}
+								<a href="/banket-{{item.restaurant_slug}}/" class="item_slide swiper-slide">
+									<div class="item_slide_img item_slide_room_img">
+										<picture>
+											<source srcset="{{image.subpath}}=w356-h248-n-l95-rw" type="image/webp">
+											<source srcset="{{image.subpath}}=w356-h248-n-l95" type="image/jpeg"> 
+											<img alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}" loading="lazy" src="{{image.subpath}}=w356-h248-n-l95">
+										</picture>
+									</div>
+								</a>
+							{% endfor %}
+						{% endif %}
 					{% endfor %}
-						
+
 				</div>
 
 				<div class="item_slider_prev swiper-button-prev"></div>
@@ -68,7 +74,7 @@
 						<a href="/banket-{{item.restaurant_slug}}/" class="item_slide swiper-slide">
 							<div class="item_slide_img">
 								{% if room.images|length == 0 %}
-									<img src="{{room.cover_url}}" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}">
+									<img src="/img/no_photo.svg" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}">
 								{% else %}
 									<picture>
 										<source srcset="{{room.images[0].subpath}}=w356-h248-n-l95-rw" type="image/webp">

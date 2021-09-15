@@ -1,5 +1,5 @@
 <div class="restaurant_adv_wrapper">
-	<div class="item" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" data-restaurant-phone="{{item.restaurant_phone}}" 
+	<div class="item" id="{{item.id}}" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" data-restaurant-phone="{{item.restaurant_phone}}" 
 	data-restaurant-mapDotX="{{item.restaurant_latitude}}" data-restaurant-mapDotY="{{item.restaurant_longitude}}">
 
 		<div class="item_info_top">
@@ -13,10 +13,12 @@
 					{% endfor %}
 				</p>
 				{% if type != 'other' %}
-					<p class="item_address" data-title-address><span class="_link">{{item.restaurant_address}}</span></p>
+					<p class="item_address" data-title-address {% if item.restaurant_commission == 2 %}data-commission{% endif %}>
+						<span class="_link">{{item.restaurant_address}}</span>
+					</p>
 				{% endif %}
 			</div>
-			<div class="item_info_contacts _button_green" data-title-address>
+			<div class="item_info_contacts _button_green" data-title-address {% if item.restaurant_commission == 2 %}data-commission{% endif %}>
 				<span>Показать контакты</span>
 			</div>
 		</div>

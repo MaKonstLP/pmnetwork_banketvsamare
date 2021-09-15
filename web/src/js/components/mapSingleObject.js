@@ -55,6 +55,11 @@ export default class YaMapSingleObject {
 		}
 
 		$('[data-title-address]').on('click', function () {
+			// ym(84074572,'reachGoal','show_lead');
+			let attrCommission = $(this).attr('data-commission');
+			if (typeof attrCommission !== typeof undefined && attrCommission !== false) {
+				ym(84074572, 'reachGoal', 'show_lead');
+			}
 			openPopup();
 		});
 

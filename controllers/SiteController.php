@@ -100,8 +100,13 @@ class SiteController extends Controller
         else{
             $subdomen_alias = '';
         }
-        echo 'User-agent: *
-Disallow: /
+        echo 'User-agent: Yandex
+Clean-param: chelovek&rest_type
+
+User-agent:*
+Disallow: /*chelovek=
+Disallow: /*rest_type=
+
 Sitemap: https://banketvsamare.ru/sitemap/';
         exit;
     }

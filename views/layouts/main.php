@@ -32,35 +32,43 @@ AppAsset::register($this);
 		<?php $item = Yii::$app->params['item']; ?>
 		<script type="application/ld+json">
 			{
-				"@context": "http://schema.org",
+				"@context": "https://schema.org",
 				"@type": "Restaurant",
-				"image": "<?= $item->restaurant_cover_url ?>",
 				"@id": "<?= $item->restaurant_id ?>",
-				"name": "<?= $item->restaurant_name ?>",
 				"address": {
 					"@type": "PostalAddress",
-					"streetAddress": "<?= $item->restaurant_address ?>"
+					"addressLocality": "Самара",
+					"streetAddress": "<?= preg_replace("/Самара,+\s/", '', $item->restaurant_address) ?>"
 				},
-				"price": "<?= $item->restaurant_price ?>",
-				"servesCuisine": ["<?= $item->restaurant_cuisine ?>"],
+				"image": "<?= $item->restaurant_cover_url ?>",
+				"name": "<?= $item->restaurant_name ?>",
+				"priceRange": "<?= $item->restaurant_price ?>",
+				"servesCuisine": [<?php
+										$restaurant_cuisine_items = explode(",", $item->restaurant_cuisine);
+
+										$result = '';
+										$maxelt = count($restaurant_cuisine_items) - 1;
+										foreach ($restaurant_cuisine_items as $n => $restaurant_cuisine_item) {
+											$result .= '"' . trim(mb_convert_case($restaurant_cuisine_item, MB_CASE_TITLE)) . (         //Delimiter
+												(($n < $maxelt) ? '", ' : '"')                                                           //last or otherwise?
+											);
+										}
+										echo $result; ?>],
 				"geo": {
 					"@type": "GeoCoordinates",
 					"latitude": <?= $item->restaurant_latitude ?>,
 					"longitude": <?= $item->restaurant_longitude ?>
 				},
-				"url": "http://<?php $url = $_SERVER['HTTP_HOST'] . '/' . explode('/',$_SERVER['REQUEST_URI'])[1]; echo $url; ?>",
 				"telephone": "<?= $item->restaurant_phone ?>",
+				"url": "https://<?php $url = $_SERVER['HTTP_HOST'] . '/' . explode('/', $_SERVER['REQUEST_URI'])[1];
+										echo $url; ?>"
 			}
 		</script>
 	<?php endif; ?>
-
 </head>
 
 <body>
-	<!-- Google Tag Manager (noscript) 
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PTTPDSK"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
- End Google Tag Manager (noscript) -->
+
 	<?php $this->beginBody() ?>
 
 	<div class="main_wrap">
@@ -93,9 +101,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 				<div class="header_offer">
 					<div class="header__title">
-						<?php if(isset($this->params['h1'])):?>
-						<h1><?=$this->params['h1']?></h1>
-						<?php endif;?>
+						<?php if (isset($this->params['h1'])) : ?>
+							<h1><?= $this->params['h1'] ?></h1>
+						<?php endif; ?>
 					</div>
 					<p class="header__text">Бесплатная помощь банкетного менеджера</p>
 				</div>
@@ -111,7 +119,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 							<p class="form_title_main">Подобрать зал</p>
 						</div>
 
-						<form class="form_block" action="/ajax/form/" data-type="<?= isset(Yii::$app->params['is_index']) ? 'main_popup' : '' ?><?= isset(Yii::$app->params['is_item']) ? 'item_popup' : '' ?>">
+						<form class="form_block" action="/ajax/form/" data-type="popup">
 
 							<div class="form_inputs">
 
@@ -182,22 +190,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	</div>
 
 	<?php $this->endBody() ?>
-	<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&amp;display=swap&amp;subset=cyrillic" rel="stylesheet"> -->
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;900&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
 
-	<!-- <noscript><div><img src="https://mc.yandex.ru/watch/84074572" style="; left:-9999px;" alt="" /></div></noscript>
+	<noscript>
+		<div><img src="https://mc.yandex.ru/watch/84074572" style="; left:-9999px;" alt="" /></div>
+	</noscript>
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-205074779-1"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
 		gtag('js', new Date());
 
 		gtag('config', 'UA-205074779-1');
 		gtag('config', 'G-HEPKG2TRK0');
-	</script> -->
+	</script>
 </body>
 
 </html>
