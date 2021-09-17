@@ -34,7 +34,7 @@ class FormController extends Controller
             $payload['guests'] = intval($_POST['amount']);
         
         if(isset($_POST['cityID'])){
-            $payload['guests'] = intval($_POST['cityID']);
+            $payload['city_id'] = intval($_POST['cityID']);
         }
         else{
             return 1;
